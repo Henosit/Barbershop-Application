@@ -91,9 +91,6 @@ public class FragmentLogin extends Fragment {
         }
         try {
             fragmentActivity = getActivity();
-            if (fragmentActivity != null) {
-                Toast.makeText(getActivity(), "You can register now", Toast.LENGTH_SHORT).show();
-            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -190,7 +187,7 @@ public class FragmentLogin extends Fragment {
                         View view = getView();
                         if (view != null) {
                             try {
-                                Navigation.findNavController(view).navigate(R.id.action_fragmentInitial_to_fragmentLoginOK);
+                                Navigation.findNavController(view).navigate(R.id.action_fragmentInitial_to_fragmentUserProfile);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -229,7 +226,7 @@ public class FragmentLogin extends Fragment {
                 View v = getView();
                 try {
                     if (v!=null) {
-                        Navigation.findNavController(v).navigate(R.id.action_fragmentInitial_to_fragmentLoginOK);
+                        Navigation.findNavController(v).navigate(R.id.action_fragmentInitial_to_fragmentUserProfile);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

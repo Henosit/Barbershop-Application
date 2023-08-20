@@ -13,21 +13,25 @@
             android:id="@+id/action_fragmentInitial_to_fragmentReg"
             app:destination="@id/fragmentReg" />
         <action
-            android:id="@+id/action_fragmentInitial_to_fragmentLoginOK"
-            app:destination="@id/fragmentLoginOK" />
+            android:id="@+id/action_fragmentInitial_to_fragmentUserProfile"
+            app:destination="@id/fragmentUserProfile" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentLoginOK"
+        android:id="@+id/fragmentUserProfile"
         android:name="com.example.workingwithfirebase.fragments.FragmentUserProfile"
-        android:label="fragment_login_o_k"
-        tools:layout="@layout/fragment_user_profile" />
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_fragmentUserProfile_to_fragmentInitial"
+            app:destination="@id/fragmentInitial" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentReg"
         android:name="com.example.workingwithfirebase.fragments.FragmentRegister"
         android:label="fragment_reg"
         tools:layout="@layout/fragment_reg" >
         <action
-            android:id="@+id/action_fragmentReg_to_fragmentLoginOK"
-            app:destination="@id/fragmentLoginOK" />
+            android:id="@+id/action_fragmentReg_to_fragmentUserProfile"
+            app:destination="@id/fragmentUserProfile" />
     </fragment>
 </navigation>

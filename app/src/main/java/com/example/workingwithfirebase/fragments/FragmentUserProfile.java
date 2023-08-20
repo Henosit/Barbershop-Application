@@ -3,6 +3,7 @@ package com.example.workingwithfirebase.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.workingwithfirebase.activities.MainActivity;
 import com.example.workingwithfirebase.utils.ErrorHandler;
 import com.example.workingwithfirebase.R;
 import com.example.workingwithfirebase.utils.ReadWriteUserDetails;
@@ -28,6 +30,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +108,13 @@ public class FragmentUserProfile extends Fragment {
         textViewMobile = v.findViewById(R.id.textView_show_mobile);
         progressBar = v.findViewById(R.id.progressBar);
 
+        // Toolbar
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity!=null) {
+            Toolbar toolbar = mainActivity.getToolbar();
+            toolbar.setVisibility(View.VISIBLE);
+        }
+
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
@@ -158,12 +170,11 @@ public class FragmentUserProfile extends Fragment {
         });
     }
 
-    // Creating ActionBar Menu
+    public void refresh() {
+        showUserProfile(FirebaseAuth.getInstance().getCurrentUser());
+    }
 
-
-    // androidx.activity.ComponentActivity now implements MenuHost, an interface that allows any component,
-    // including your activity itself, to add menu items by calling addMenuProvider(MenuProvider) without forcing all components
-    // through this single method override. As this provides a consistent, optionally Lifecycle -aware, and modular way to handle
-    // menu creation and item selection, replace usages of this method with one or more calls to addMenuProvider(MenuProvider) in your
-    // Activity's onCreate(Bundle) method, having each provider override MenuProvider.onCreateMenu(Menu, MenuInflater) to create their menu item
+    public void signOut() {
+        authProfile.signOut();
+    }
 }

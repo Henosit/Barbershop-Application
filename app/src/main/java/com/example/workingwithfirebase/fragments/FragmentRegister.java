@@ -206,7 +206,7 @@ public class FragmentRegister extends Fragment {
                                 Toast.makeText(fragmentActivity,"User registered successfully. Please verify your email", Toast.LENGTH_SHORT).show();
 
                                 // Navigate to the user profile
-                                Navigation.findNavController(getView()).navigate(R.id.action_fragmentReg_to_fragmentLoginOK);
+                                Navigation.findNavController(getView()).navigate(R.id.action_fragmentReg_to_fragmentUserProfile);
                             }
                             else {
                                 Toast.makeText(fragmentActivity,"User registration failed. Please try again.",Toast.LENGTH_SHORT).show();
