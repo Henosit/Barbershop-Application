@@ -8,7 +8,7 @@
         android:id="@+id/fragmentInitial"
         android:name="com.example.workingwithfirebase.fragments.FragmentLogin"
         android:label="fragment_initial"
-        tools:layout="@layout/fragment_initial" >
+        tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_fragmentInitial_to_fragmentReg"
             app:destination="@id/fragmentReg" />

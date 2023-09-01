@@ -1,5 +1,6 @@
 package com.example.workingwithfirebase.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -100,13 +101,23 @@ public class FragmentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_initial, container, false);
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
         editTextLoginEmail = v.findViewById(R.id.emailUser);
         editTextLoginPwd = v.findViewById(R.id.passUser);
         textViewRegister = v.findViewById(R.id.textViewRegisterClick);
         progressBar = v.findViewById(R.id.progressBar);
 
         authProfile = FirebaseAuth.getInstance();
+
+        // Reset Password
+        Button buttonForgotPwd = v.findViewById(R.id.buttonForgotPassword);
+        buttonForgotPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(fragmentActivity, "You can reset your password now!", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(FragmentLogin.this,ForgotPasswordActivity.class));
+            }
+        });
 
         // Hide password icon
         ImageView imageViewShowHidePwd = v.findViewById(R.id.imageView_show_hide_pwd);
