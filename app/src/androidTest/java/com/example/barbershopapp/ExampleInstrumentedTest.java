@@ -1,4 +1,4 @@
-package com.example.workingwithfirebase;
+package com.example.barbershopapp;
 
 import android.content.Context;
 

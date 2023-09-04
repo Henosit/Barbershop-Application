@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "141726321799",
-    "project_id": "workingwithfirebase-6ea9d",
-    "storage_bucket": "workingwithfirebase-6ea9d.appspot.com"
+    "project_number": "217431761942",
+    "project_id": "barbershop-app-80e99",
+    "storage_bucket": "barbershop-app-80e99.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141726321799:android:2806ad6d8d59c57698bc22",
+        "mobilesdk_app_id": "1:217431761942:android:44473fd65748e3b7cb4137",
         "android_client_info": {
-          "package_name": "com.example.workingwithfirebase"
+          "package_name": "com.example.barbershopapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "141726321799-3opm0dfrgc9vcgnkt8lf2a5unh7vesja.apps.googleusercontent.com",
+          "client_id": "217431761942-ccha750kfh8domkveal9utb5dtkn6f1m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCreNgmlP8_OEQaKZQJJWxPxDbqvk1HSPk"
+          "current_key": "AIzaSyA-GbPPnd6H9wFFuJ0xnvkAkVITnB14hh4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "141726321799-3opm0dfrgc9vcgnkt8lf2a5unh7vesja.apps.googleusercontent.com",
+              "client_id": "217431761942-ccha750kfh8domkveal9utb5dtkn6f1m.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

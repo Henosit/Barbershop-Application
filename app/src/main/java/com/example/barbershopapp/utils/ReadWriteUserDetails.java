@@ -1,4 +1,4 @@
-package com.example.workingwithfirebase.utils;
+package com.example.barbershopapp.utils;
 
 public class ReadWriteUserDetails {
 

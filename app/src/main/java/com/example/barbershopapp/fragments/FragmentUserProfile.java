@@ -1,17 +1,13 @@
-package com.example.workingwithfirebase.fragments;
+package com.example.barbershopapp.fragments;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,10 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.workingwithfirebase.activities.MainActivity;
-import com.example.workingwithfirebase.utils.ErrorHandler;
-import com.example.workingwithfirebase.R;
-import com.example.workingwithfirebase.utils.ReadWriteUserDetails;
+import com.example.barbershopapp.activities.MainActivity;
+import com.example.barbershopapp.utils.ErrorHandler;
+import com.example.barbershopapp.R;
+import com.example.barbershopapp.utils.ReadWriteUserDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A simple {@link Fragment} subclass.

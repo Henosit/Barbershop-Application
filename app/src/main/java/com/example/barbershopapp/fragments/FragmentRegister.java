@@ -1,4 +1,4 @@
-package com.example.workingwithfirebase.fragments;
+package com.example.barbershopapp.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -23,10 +23,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.workingwithfirebase.utils.ErrorHandler;
-import com.example.workingwithfirebase.R;
-import com.example.workingwithfirebase.utils.ReadWriteUserDetails;
-import com.example.workingwithfirebase.activities.MainActivity;
+import com.example.barbershopapp.utils.ErrorHandler;
+import com.example.barbershopapp.R;
+import com.example.barbershopapp.utils.ReadWriteUserDetails;
+import com.example.barbershopapp.activities.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

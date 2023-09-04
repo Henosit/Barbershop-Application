@@ -1,4 +1,4 @@
-package com.example.workingwithfirebase.activities;
+package com.example.barbershopapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.example.workingwithfirebase.R;
+import com.example.barbershopapp.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 

@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentInitial">
     <fragment
         android:id="@+id/fragmentInitial"
-        android:name="com.example.workingwithfirebase.fragments.FragmentLogin"
+        android:name="com.example.barbershopapp.fragments.FragmentLogin"
         android:label="fragment_initial"
         tools:layout="@layout/fragment_login" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentUserProfile"
-        android:name="com.example.workingwithfirebase.fragments.FragmentUserProfile"
+        android:name="com.example.barbershopapp.fragments.FragmentUserProfile"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentReg"
-        android:name="com.example.workingwithfirebase.fragments.FragmentRegister"
+        android:name="com.example.barbershopapp.fragments.FragmentRegister"
         android:label="fragment_reg"
         tools:layout="@layout/fragment_reg" >
         <action
