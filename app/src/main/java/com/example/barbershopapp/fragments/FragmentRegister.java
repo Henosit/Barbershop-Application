@@ -169,6 +169,7 @@ public class FragmentRegister extends Fragment {
                         editTextRegPwd, editTextRegConfirmPwd, textFullName,
                         textEmail, textID, textBirthday, textMobile, textPwd, textConfirmPwd,
                        progressBar, textGender, radioButtonRegGenderSelected, radioGroupRegGender)==true) {
+                   textGender = radioButtonRegGenderSelected.getText().toString();
                    registerUser(textFullName, textEmail, textID, textBirthday, textGender, textMobile, textPwd);
                }
             }
@@ -304,7 +305,6 @@ public class FragmentRegister extends Fragment {
             return false;
             // User entered everything correctly
         } else {
-            textGender = radioButtonRegGenderSelected.getText().toString();
             progressBar.setVisibility(View.VISIBLE);
             return true;
         }

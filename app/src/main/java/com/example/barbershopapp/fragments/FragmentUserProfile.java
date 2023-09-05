@@ -1,5 +1,6 @@
 package com.example.barbershopapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.barbershopapp.activities.AppointmentActivity;
 import com.example.barbershopapp.activities.MainActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
@@ -118,7 +120,9 @@ public class FragmentUserProfile extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             showUserProfile(firebaseUser);
         }
-
+        //debug
+        /*Intent intent= new Intent(mainActivity, AppointmentActivity.class);
+        startActivity(intent);*/
         return v;
     }
 
