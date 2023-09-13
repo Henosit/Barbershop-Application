@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -120,6 +121,17 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+
+                    MenuItem bookingMenuItem = menu.findItem(R.id.menu_booking);
+                bookingMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Delete Profile
+                        Intent intent = new Intent (MainActivity.this, AppointmentActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -9,6 +9,9 @@
         android:id="@+id/menu_refresh"
         app:showAsAction="ifRoom"/>
 
+    <item android:title="Book an appointment"
+        android:id="@+id/menu_booking" />
+
     <item android:title="Update Profile"
         android:id="@+id/menu_update_profile" />
 
