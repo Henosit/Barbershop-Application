@@ -10,6 +10,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.barbershopapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AppointmentActivity extends Activity {
 
@@ -19,10 +21,16 @@ public class AppointmentActivity extends Activity {
     private Spinner timeSlotSpinner; // New Spinner for time slots
     private Button bookButton;
 
+    private FirebaseAuth authProfile;
+    FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment);
+
+        authProfile = FirebaseAuth.getInstance();
+        firebaseUser = authProfile.getCurrentUser();
 
         calendarView = findViewById(R.id.calendarView);
         barberSpinner = findViewById(R.id.barberSpinner);
