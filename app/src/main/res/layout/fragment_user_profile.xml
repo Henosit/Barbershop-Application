@@ -29,11 +29,11 @@
                 android:id="@+id/textView_show_welcome"
                 android:layout_below="@id/imageView_profile_dp"
                 android:hint="Loading..."
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/turquoise"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@color/white"/>
+                android:textColor="@color/turquoise"/>
         </RelativeLayout>
 
         <RelativeLayout
