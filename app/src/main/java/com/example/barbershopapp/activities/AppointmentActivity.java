@@ -77,9 +77,7 @@ public class AppointmentActivity extends Activity {
                 // Format the selected date as needed
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = sdf.format(selectedDate);
-                currentDate =formattedDate;
-                // Now, 'formattedDate' contains the selected date in the format "yyyy-MM-dd"
-                // You can use 'formattedDate' as needed
+                currentDate = formattedDate;
             }
         });
 
@@ -104,7 +102,7 @@ public class AppointmentActivity extends Activity {
 
                 // Perform booking logic here (e.g., save to a database)
 
-                bookAppointment(currentDate,selectedBarber,selectedTreatment,selectedTimeSlot);
+                bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
             }
         });
     }
