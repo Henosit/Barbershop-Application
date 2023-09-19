@@ -111,66 +111,52 @@ public class AppointmentActivity extends Activity {
 
     public void bookAppointment(String date, String barber, String treatment, String timeSlot) {
         // TODO: Perform availability check here (query your database or data source)
-        List<ReadWriteAppointmentDetails> appointments = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Appointments");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean isSlotAvailable = true; // Assume the slot is initially available
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String date = snapshot.child("date").getValue(String.class);
-                    String barber = snapshot.child("barber").getValue(String.class);
-                    String timeSlot = snapshot.child("timeSlot").getValue(String.class);
-                    String treatment= snapshot.child("treatment").getValue(String.class);
-                    appointments.add(new ReadWriteAppointmentDetails(date, barber,treatment, timeSlot));
+                    String existingDate = snapshot.child("date").getValue(String.class);
+                    String existingBarber = snapshot.child("barber").getValue(String.class);
+                    String existingTimeSlot = snapshot.child("timeSlot").getValue(String.class);
+
+                    // Check if the date, barber, and time slot match an existing appointment
+                    if (existingDate.equals(date) && existingBarber.equals(barber) && existingTimeSlot.equals(timeSlot)) {
+                        // Slot is not available since there's a conflicting appointment
+                        isSlotAvailable = false;
+                        break; // No need to check further
+                    }
+                }
+
+                if (isSlotAvailable) {
+                    // Enter Appointment Data into the Firebase Realtime DB
+                    ReadWriteAppointmentDetails writeAppointmentDetails = new ReadWriteAppointmentDetails(date, barber, treatment, timeSlot);
+
+                    // Extracting user reference from DB for "Appointments"
+                    DatabaseReference referenceAppointment = FirebaseDatabase.getInstance().getReference("Appointments");
+                    referenceAppointment.child(firebaseUser.getUid()).setValue(writeAppointmentDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Display a confirmation message
+                                Toast.makeText(getApplicationContext(), "Appointment booked for " +
+                                                date + "\nBarber: " + barber + "\nTreatment: " + treatment + "\nTime Slot: " + timeSlot,
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Appointment booking failed. Please try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    // Show a message to the user indicating that the selected slot is already booked
+                    Toast.makeText(getApplicationContext(), "This time slot is already booked. Please choose another time slot.", Toast.LENGTH_LONG).show();
                 }
             }
+
             public void onCancelled(DatabaseError databaseError) {
                 // Handle database read error, if needed
             }
         });
-        if (isSlotAvailable(date, barber, timeSlot, (ArrayList<ReadWriteAppointmentDetails>) appointments)) {
-            // Enter Appointment Data into the Firebase Realtime DB
-            ReadWriteAppointmentDetails writeAppointmentDetails = new ReadWriteAppointmentDetails(date, barber, treatment, timeSlot);
-
-            // Extracting user reference from DB for "Appointments"
-            DatabaseReference referenceAppointment = FirebaseDatabase.getInstance().getReference("Appointments");
-            referenceAppointment.child(firebaseUser.getUid()).setValue(writeAppointmentDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        // Display a confirmation message
-                        Toast.makeText(getApplicationContext(), "Appointment booked for " +
-                                        date + "\nBarber: " + barber + "\nTreatment: " + treatment + "\nTime Slot: " + timeSlot,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Appointment booking failed. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } else {
-            // Show a message to the user indicating that the selected slot is already booked
-            Toast.makeText(getApplicationContext(), "This time slot is already booked. Please choose another time slot.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    // Function to check if the selected date and time slot are available (you need to implement this)
-    private boolean isSlotAvailable(String date, String barber, String timeSlot, ArrayList<ReadWriteAppointmentDetails> bookedAppointments) {
-        // TODO: Implement logic to check availability from your data source
-        // Return true if the slot is available, false otherwise.
-        // You may need to query your database or perform other checks.
-        if(bookedAppointments.isEmpty())
-            return true;
-        for (ReadWriteAppointmentDetails appointment : bookedAppointments) {
-            // Check if the date, barber, and time slot match
-            if (appointment.getDate().equals(date) &&
-                    appointment.getBarber().equals(barber) &&
-                    appointment.getTimeSlot().equals(timeSlot)) {
-                // Slot is not available since there's a conflicting appointment
-                Toast.makeText(getApplicationContext(), "This Appointment is Already booked For a certain person please try another barber or at another time.",Toast.LENGTH_LONG).show();
-                return false;
-            }
-        }
-
-        // If no conflicting appointment was found, the slot is available
-        return true;
     }
 }
