@@ -19,8 +19,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class AppointmentActivity extends Activity {
 
@@ -32,6 +40,7 @@ public class AppointmentActivity extends Activity {
 
     private FirebaseAuth authProfile;
     FirebaseUser firebaseUser;
+    String currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +70,32 @@ public class AppointmentActivity extends Activity {
         ArrayAdapter<CharSequence> timeSlotAdapter = ArrayAdapter.createFromResource(this, R.array.time_slots_array, android.R.layout.simple_spinner_item);
         timeSlotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeSlotSpinner.setAdapter(timeSlotAdapter);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
+                Date selectedDate = new Date(year - 1900, month, dayOfMonth);
+
+                // Format the selected date as needed
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = sdf.format(selectedDate);
+                currentDate =formattedDate;
+                // Now, 'formattedDate' contains the selected date in the format "yyyy-MM-dd"
+                // You can use 'formattedDate' as needed
+            }
+        });
 
         // Set an onClickListener for the Book Button
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentDate != null) {
+                    Toast.makeText(getApplicationContext(), "Selected Date: " + currentDate, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No date selected yet", Toast.LENGTH_SHORT).show();
+                }
                 // Get selected date from the CalendarView
-                long selectedDateInMillis = calendarView.getDate();
 
                 // Convert the selected date to a readable format (you can customize this)
-                String selectedDate = String.valueOf(selectedDateInMillis);
+                //String selectedDate = String.valueOf(selectedDateInMillis);
 
                 // Get selected barber, treatment, and time slot from spinners
                 String selectedBarber = barberSpinner.getSelectedItem().toString();
@@ -79,14 +104,30 @@ public class AppointmentActivity extends Activity {
 
                 // Perform booking logic here (e.g., save to a database)
 
-                bookAppointment(selectedDate,selectedBarber,selectedTreatment,selectedTimeSlot);
+                bookAppointment(currentDate,selectedBarber,selectedTreatment,selectedTimeSlot);
             }
         });
     }
 
     public void bookAppointment(String date, String barber, String treatment, String timeSlot) {
         // TODO: Perform availability check here (query your database or data source)
-        if (isSlotAvailable(date, barber, treatment, timeSlot)) {
+        List<ReadWriteAppointmentDetails> appointments = new ArrayList<>();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Appointments");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String date = snapshot.child("date").getValue(String.class);
+                    String barber = snapshot.child("barber").getValue(String.class);
+                    String timeSlot = snapshot.child("timeSlot").getValue(String.class);
+                    String treatment= snapshot.child("treatment").getValue(String.class);
+                    appointments.add(new ReadWriteAppointmentDetails(date, barber,treatment, timeSlot));
+                }
+            }
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle database read error, if needed
+            }
+        });
+        if (isSlotAvailable(date, barber, timeSlot, (ArrayList<ReadWriteAppointmentDetails>) appointments)) {
             // Enter Appointment Data into the Firebase Realtime DB
             ReadWriteAppointmentDetails writeAppointmentDetails = new ReadWriteAppointmentDetails(date, barber, treatment, timeSlot);
 
@@ -112,10 +153,24 @@ public class AppointmentActivity extends Activity {
     }
 
     // Function to check if the selected date and time slot are available (you need to implement this)
-    private boolean isSlotAvailable(String date, String barber, String treatment, String timeSlot) {
+    private boolean isSlotAvailable(String date, String barber, String timeSlot, ArrayList<ReadWriteAppointmentDetails> bookedAppointments) {
         // TODO: Implement logic to check availability from your data source
         // Return true if the slot is available, false otherwise.
         // You may need to query your database or perform other checks.
+        if(bookedAppointments.isEmpty())
+            return true;
+        for (ReadWriteAppointmentDetails appointment : bookedAppointments) {
+            // Check if the date, barber, and time slot match
+            if (appointment.getDate().equals(date) &&
+                    appointment.getBarber().equals(barber) &&
+                    appointment.getTimeSlot().equals(timeSlot)) {
+                // Slot is not available since there's a conflicting appointment
+                Toast.makeText(getApplicationContext(), "This Appointment is Already booked For a certain person please try another barber or at another time.",Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        // If no conflicting appointment was found, the slot is available
         return true;
     }
 }
