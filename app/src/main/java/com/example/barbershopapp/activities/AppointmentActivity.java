@@ -1,6 +1,8 @@
 package com.example.barbershopapp.activities;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 
 import com.example.barbershopapp.R;
@@ -87,22 +90,24 @@ public class AppointmentActivity extends Activity {
             public void onClick(View v) {
                 if (currentDate != null) {
                     Toast.makeText(getApplicationContext(), "Selected Date: " + currentDate, Toast.LENGTH_SHORT).show();
+                    // Get selected date from the CalendarView
+                    String selectedBarber = barberSpinner.getSelectedItem().toString();
+                    String selectedTreatment = treatmentSpinner.getSelectedItem().toString();
+                    String selectedTimeSlot = timeSlotSpinner.getSelectedItem().toString();
+
+                    // Perform booking logic here (e.g., save to a database)
+                    if (selectedBarber=="") {
+                        Toast.makeText(getApplicationContext(), "No barber selected yet", Toast.LENGTH_SHORT).show();
+                    } else if (selectedTreatment=="") {
+                        Toast.makeText(getApplicationContext(), "No treatment selected yet", Toast.LENGTH_SHORT).show();
+                    } else if (selectedTimeSlot=="") {
+                        Toast.makeText(getApplicationContext(), "No time slot selected yet", Toast.LENGTH_SHORT).show();
+                    } else {
+                        bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "No date selected yet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please click on the calendar to select your date", Toast.LENGTH_SHORT).show();
                 }
-                // Get selected date from the CalendarView
-
-                // Convert the selected date to a readable format (you can customize this)
-                //String selectedDate = String.valueOf(selectedDateInMillis);
-
-                // Get selected barber, treatment, and time slot from spinners
-                String selectedBarber = barberSpinner.getSelectedItem().toString();
-                String selectedTreatment = treatmentSpinner.getSelectedItem().toString();
-                String selectedTimeSlot = timeSlotSpinner.getSelectedItem().toString();
-
-                // Perform booking logic here (e.g., save to a database)
-
-                bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
             }
         });
     }
@@ -120,10 +125,14 @@ public class AppointmentActivity extends Activity {
                     String existingTimeSlot = snapshot.child("timeSlot").getValue(String.class);
 
                     // Check if the date, barber, and time slot match an existing appointment
-                    if (existingDate.equals(date) && existingBarber.equals(barber) && existingTimeSlot.equals(timeSlot)) {
-                        // Slot is not available since there's a conflicting appointment
-                        isSlotAvailable = false;
-                        break; // No need to check further
+                    try {
+                        if (existingDate.equals(date) && existingBarber.equals(barber) && existingTimeSlot.equals(timeSlot)) {
+                            // Slot is not available since there's a conflicting appointment
+                            isSlotAvailable = false;
+                            break; // No need to check further
+                        }
+                    } catch (NullPointerException e) {
+                        Toast.makeText(getApplicationContext(), "There is a problem in scheduling the appointment, please try again later.", Toast.LENGTH_SHORT).show();
                     }
                 }
 
