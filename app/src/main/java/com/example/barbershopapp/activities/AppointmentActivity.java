@@ -5,10 +5,12 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -89,6 +92,7 @@ public class AppointmentActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (currentDate != null) {
+                    // Update time slot colors when a date is selected
                     Toast.makeText(getApplicationContext(), "Selected Date: " + currentDate, Toast.LENGTH_SHORT).show();
                     // Get selected date from the CalendarView
                     String selectedBarber = barberSpinner.getSelectedItem().toString();
@@ -103,6 +107,7 @@ public class AppointmentActivity extends Activity {
                     } else if (selectedTimeSlot=="") {
                         Toast.makeText(getApplicationContext(), "No time slot selected yet", Toast.LENGTH_SHORT).show();
                     } else {
+                        // Update time slot colors when a date is selected
                         bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
                     }
                 } else {
@@ -110,6 +115,19 @@ public class AppointmentActivity extends Activity {
                 }
             }
         });
+
+//        timeSlotSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getApplicationContext(), "Item Selected", Toast.LENGTH_SHORT).show();
+//                updateSlotColors(currentDate);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                Toast.makeText(getApplicationContext(), "None Selected", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     public void bookAppointment(String date, String barber, String treatment, String timeSlot) {
@@ -167,4 +185,78 @@ public class AppointmentActivity extends Activity {
             }
         });
     }
+
+    // Method to update time slot colors based on availability
+//    private void updateSlotColors(String selectedDate) {
+//        if (selectedDate != null) {
+//            ArrayAdapter<CharSequence> timeSlotAdapter = ArrayAdapter.createFromResource(this, R.array.time_slots_array, android.R.layout.simple_spinner_item);
+//
+//            // Create ColorStateList for available and unavailable time slots
+//            int darkTurquoiseColor = ContextCompat.getColor(this, R.color.dark_turquoise); // Define your color resource
+//            int whiteColor = Color.WHITE; // Change this to your desired color
+//            ColorStateList colorStateList;
+//
+//            // TODO: Implement the logic to retrieve unavailable time slots for the selectedDate
+//            List<String> unavailableTimeSlots = getUnavailableTimeSlots(selectedDate);
+//
+//            // Iterate through time slots and update their colors
+//            for (int i = 0; i < timeSlotAdapter.getCount(); i++) {
+//                String timeSlot = timeSlotAdapter.getItem(i).toString();
+//
+//                // Check if the time slot is in the list of unavailable time slots
+//                boolean isSlotUnavailable = unavailableTimeSlots.contains(timeSlot);
+//
+//                // Set the appropriate color for the time slot
+//                if (isSlotUnavailable) {
+//                    colorStateList = ColorStateList.valueOf(darkTurquoiseColor); // Unavailable slot color
+//                } else {
+//                    colorStateList = ColorStateList.valueOf(whiteColor); // Available slot color
+//                }
+//
+//                // Get the selected item view and set its background color
+//                View selectedView = timeSlotSpinner.getSelectedView();
+//                if (selectedView != null) {
+//                    selectedView.setBackgroundTintList(colorStateList);
+//                }
+//            }
+//        }
+//    }
+
+//    private List<String> getUnavailableTimeSlots(String selectedDate) {
+//        // Initialize the list of unavailable time slots
+//        List<String> unavailableTimeSlots = new ArrayList<>();
+//
+//        // Get a reference to your Firebase database
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Appointments");
+//
+//        // Construct a query to find appointments for the selected date
+//        Query query = databaseReference.orderByChild("date").equalTo(selectedDate);
+//
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                // Iterate through the appointments for the selected date
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String existingTimeSlot = snapshot.child("timeSlot").getValue(String.class);
+//
+//                    // Add the unavailable time slot to the list
+//                    unavailableTimeSlots.add(existingTimeSlot);
+//                }
+//
+//                // Now, you have a list of unavailable time slots for the selected date
+//                // You can use this list to determine which time slots are unavailable
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Handle any errors in reading the database, if needed
+//            }
+//        });
+//        if (unavailableTimeSlots!=null) {
+//            for (int i=0;i<unavailableTimeSlots.size();i++) {
+//                Toast.makeText(getApplicationContext(), unavailableTimeSlots.get(i), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        return unavailableTimeSlots;
+//    }
 }
