@@ -142,6 +142,7 @@ public class AppointmentActivity extends Activity {
 
                     // Extracting user reference from DB for "Appointments"
                     DatabaseReference referenceAppointment = FirebaseDatabase.getInstance().getReference("Appointments");
+                    // Note: a user can only schedule one appointment
                     referenceAppointment.child(firebaseUser.getUid()).setValue(writeAppointmentDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

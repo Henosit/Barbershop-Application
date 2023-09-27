@@ -20,6 +20,7 @@ import com.example.barbershopapp.activities.AppointmentActivity;
 import com.example.barbershopapp.activities.MainActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
+import com.example.barbershopapp.utils.ReadWriteAppointmentDetails;
 import com.example.barbershopapp.utils.ReadWriteUserDetails;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,9 +38,9 @@ import com.google.firebase.database.ValueEventListener;
 public class FragmentUserProfile extends Fragment {
 
     private FragmentActivity fragmentActivity;
-    private TextView textViewWelcome, textViewFullName, textViewEmail, textViewBirthday, textViewGender, textViewMobile;
+    private TextView textViewWelcome, textViewFullName, textViewEmail, textViewBirthday, textViewGender, textViewMobile, textViewShowAppointment;
     private ProgressBar progressBar;
-    private String fullName, email, birthday, gender, mobile;
+    private String fullName, email, birthday, gender, mobile, appointment;
     private ImageView imageViewProfile;
     private FirebaseAuth authProfile;
 
@@ -101,6 +102,7 @@ public class FragmentUserProfile extends Fragment {
         textViewBirthday = v.findViewById(R.id.textView_show_birthday);
         textViewGender = v.findViewById(R.id.textView_show_gender);
         textViewMobile = v.findViewById(R.id.textView_show_mobile);
+        textViewShowAppointment = v.findViewById(R.id.textView_show_appointment);
         progressBar = v.findViewById(R.id.progressBar);
 
         // Toolbar
@@ -138,6 +140,7 @@ public class FragmentUserProfile extends Fragment {
 
         // Extracting User Reference from DB for "Registered Users"
         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
+        DatabaseReference referenceAppointment = FirebaseDatabase.getInstance().getReference("Appointments");
         referenceProfile.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -157,6 +160,23 @@ public class FragmentUserProfile extends Fragment {
                     textViewMobile.setText(mobile);
                 }
                 progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(fragmentActivity,"Something went wrong!", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        referenceAppointment.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ReadWriteAppointmentDetails readAppointmentDetails = snapshot.getValue(ReadWriteAppointmentDetails.class);
+                if (readAppointmentDetails != null) {
+                    appointment = readAppointmentDetails.getAppointmentDetails();
+                    textViewShowAppointment.setText(appointment);
+                }
             }
 
             @Override

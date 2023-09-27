@@ -188,6 +188,22 @@
                 android:layout_below="@id/divider_gender"
                 android:textSize="18sp"/>
 
+            <TextView
+                android:id="@+id/textView_show_appointment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_show_mobile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:hint="Loading..."
+                android:lineSpacingExtra="8sp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/turquoise"
+                android:textColorHint="@color/turquoise"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"

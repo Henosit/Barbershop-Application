@@ -47,4 +47,14 @@ public class ReadWriteAppointmentDetails {
     public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
+
+    public String getAppointmentDetails() {
+        String appointmentMessage = "Your appointment is scheduled for:\n"
+                + getDate() + ", "
+                + getBarber() + ", "
+                + getTreatment() + ", "
+                + getTimeSlot() + ".\n"
+                + "We look forward to seeing you!";
+        return appointmentMessage;
+    }
 }
