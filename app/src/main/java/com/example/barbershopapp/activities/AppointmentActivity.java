@@ -32,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,23 +93,29 @@ public class AppointmentActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (currentDate != null) {
-                    // Update time slot colors when a date is selected
                     Toast.makeText(getApplicationContext(), "Selected Date: " + currentDate, Toast.LENGTH_SHORT).show();
-                    // Get selected date from the CalendarView
-                    String selectedBarber = barberSpinner.getSelectedItem().toString();
-                    String selectedTreatment = treatmentSpinner.getSelectedItem().toString();
-                    String selectedTimeSlot = timeSlotSpinner.getSelectedItem().toString();
-
-                    // Perform booking logic here (e.g., save to a database)
-                    if (selectedBarber=="") {
-                        Toast.makeText(getApplicationContext(), "No barber selected yet", Toast.LENGTH_SHORT).show();
-                    } else if (selectedTreatment=="") {
-                        Toast.makeText(getApplicationContext(), "No treatment selected yet", Toast.LENGTH_SHORT).show();
-                    } else if (selectedTimeSlot=="") {
-                        Toast.makeText(getApplicationContext(), "No time slot selected yet", Toast.LENGTH_SHORT).show();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date today = new Date();
+                    String todayDate = dateFormat.format(today);
+                    if (currentDate.compareTo(todayDate)<0) {
+                        Toast.makeText(getApplicationContext(), "Please select a valid, future date", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Update time slot colors when a date is selected
-                        bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                        // Get selected date from the CalendarView
+                        String selectedBarber = barberSpinner.getSelectedItem().toString();
+                        String selectedTreatment = treatmentSpinner.getSelectedItem().toString();
+                        String selectedTimeSlot = timeSlotSpinner.getSelectedItem().toString();
+
+                        // Perform booking logic here (e.g., save to a database)
+                        if (selectedBarber=="") {
+                            Toast.makeText(getApplicationContext(), "No barber selected yet", Toast.LENGTH_SHORT).show();
+                        } else if (selectedTreatment=="") {
+                            Toast.makeText(getApplicationContext(), "No treatment selected yet", Toast.LENGTH_SHORT).show();
+                        } else if (selectedTimeSlot=="") {
+                            Toast.makeText(getApplicationContext(), "No time slot selected yet", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Update time slot colors when a date is selected
+                            bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                        }
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Please click on the calendar to select your date", Toast.LENGTH_SHORT).show();
