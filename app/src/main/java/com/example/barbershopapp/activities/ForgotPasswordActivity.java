@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.example.barbershopapp.utils.ErrorHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import kotlin.internal.UProgressionUtilKt;
 
@@ -28,6 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText editTextPwdResetEmail;
     private ProgressBar progressBar;
     private FirebaseAuth authProfile;
+    private final static String TAG= "ForgetPasswordActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     finish();
                 }
                 else{
+                    try{
+                        throw task.getException();
+                    } catch(FirebaseAuthInvalidUserException e){
+                        ErrorHandler.showError(ForgotPasswordActivity.this,"User does not exist, Please Register",editTextPwdResetEmail,"User does not exist");
+                    } catch(Exception e){
+                        Log.e(TAG,e.getMessage());
+                        Toast.makeText(ForgotPasswordActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
                     Toast.makeText(ForgotPasswordActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
                 progressBar.setVisibility(View.GONE);
