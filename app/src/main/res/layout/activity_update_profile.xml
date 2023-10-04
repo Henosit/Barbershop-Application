@@ -44,14 +44,36 @@
             android:hint="Please Enter full name"
             android:background="@drawable/border"
             android:minHeight="48dp"
-            android:textColor="#555555"
-            />
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/textView_update_ID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:layout_below="@+id/editText_update_Profile_Name"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"
+            android:textColor="#555555"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_update_ID"
+            android:layout_below="@id/textView_update_ID"
+            android:textSize="16sp"
+            android:padding="6dp"
+            android:hint="Please Enter your ID"
+            android:background="@drawable/border"
+            android:minHeight="48dp"
+            android:textColor="#555555" />
+
         <TextView
             android:id="@+id/textView_update_Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date of Birth (dd/mm/yyyy)"
-            android:layout_below="@id/editText_update_Profile_Name"
+            android:layout_below="@id/editText_update_ID"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="16sp"
             android:layout_marginTop="30dp"

@@ -177,6 +177,9 @@ public class FragmentUserProfile extends Fragment {
                     appointment = readAppointmentDetails.getAppointmentDetails();
                     textViewShowAppointment.setText(appointment);
                 }
+                else{
+                    textViewShowAppointment.setText("You haven't booked with us yet...");
+                }
             }
 
             @Override
