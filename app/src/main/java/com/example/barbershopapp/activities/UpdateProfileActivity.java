@@ -59,15 +59,15 @@ public class UpdateProfileActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         //Show profile Data
         showProfile(firebaseUser);
-//        Button buttonUpdateEmail=findViewById(R.id.buttonUpdateEmail);
-//        buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent= new Intent(UpdateProfileActivity.this,UpdateEmailActivity.class);
-//                StartActivity(intent);
-//                finish();
-//            }
-//        });
+        Button buttonUpdateEmail=findViewById(R.id.buttonUpdateEmail);
+        buttonUpdateEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(UpdateProfileActivity.this,UpdateEmailActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         // Setting up Date Picker on EditText
         editTextUpdateDate.setOnClickListener(new View.OnClickListener() {
             @Override

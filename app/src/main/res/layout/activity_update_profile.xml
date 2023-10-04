@@ -107,17 +107,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_update_Gender"
             android:orientation="horizontal">
-            <RadioButton
+            <android.widget.RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_updateFemale"
                 android:text="Female"
+                android:button="@drawable/radio_button_white"
                 android:textSize="16sp"
                 android:textColor="#666666" />
-            <RadioButton
+            <android.widget.RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radio_updateMale"
+                android:button="@drawable/radio_button_white"
                 android:text="Male"
                 android:textSize="16sp"
                 android:textColor="#666666" />

@@ -1,6 +1,7 @@
 package com.example.barbershopapp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 
 import com.example.barbershopapp.R;
+import com.example.barbershopapp.fragments.FragmentUserProfile;
 import com.example.barbershopapp.utils.ReadWriteAppointmentDetails;
 import com.example.barbershopapp.utils.ReadWriteUserDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -176,6 +178,10 @@ public class AppointmentActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "Appointment booked for " +
                                                 date + "\nBarber: " + barber + "\nTreatment: " + treatment + "\nTime Slot: " + timeSlot,
                                         Toast.LENGTH_LONG).show();
+                                Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
+                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
+                                startActivity(new Intent(AppointmentActivity.this, FragmentUserProfile.class));
+                                finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Appointment booking failed. Please try again.", Toast.LENGTH_SHORT).show();
                             }
