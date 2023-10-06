@@ -55,27 +55,27 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-//                MenuItem updateProfileMenuItem = menu.findItem(R.id.menu_update_profile);
-//                updateProfileMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        // Update Profile
-//                        Intent intent = new Intent (MainActivity.this, UpdateProfileActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                });
+                MenuItem updateProfileMenuItem = menu.findItem(R.id.menu_update_profile);
+                updateProfileMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Update Profile
+                        Intent intent = new Intent (MainActivity.this, UpdateProfileActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
 
-//                MenuItem updateEmailMenuItem = menu.findItem(R.id.menu_update_email);
-//                updateEmailMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        // Update Email
-//                        Intent intent = new Intent (MainActivity.this, UpdateEmailActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                });
+                MenuItem updateEmailMenuItem = menu.findItem(R.id.menu_update_email);
+                updateEmailMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Update Email
+                        Intent intent = new Intent (MainActivity.this, UpdateEmailActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
 
                     MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
                     settingsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {

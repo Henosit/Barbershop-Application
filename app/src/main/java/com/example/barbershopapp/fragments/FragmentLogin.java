@@ -1,5 +1,6 @@
 package com.example.barbershopapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.barbershopapp.activities.AppointmentActivity;
+import com.example.barbershopapp.activities.ForgotPasswordActivity;
+import com.example.barbershopapp.activities.MainActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -114,7 +118,7 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(fragmentActivity, "You can reset your password now!", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(FragmentLogin.this,ForgotPasswordActivity.class));
+                startActivity(new Intent(getActivity(), ForgotPasswordActivity.class));
             }
         });
 
