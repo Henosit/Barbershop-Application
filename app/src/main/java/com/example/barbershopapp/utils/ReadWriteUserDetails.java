@@ -8,7 +8,7 @@ public class ReadWriteUserDetails {
     }
 
     public ReadWriteUserDetails(String ID, String birthday, String gender, String mobile) {
-        this.ID=ID;
+        this.ID = ID;
         this.birthday = birthday;
         this.gender = gender;
         this.mobile = mobile;

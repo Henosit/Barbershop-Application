@@ -133,37 +133,52 @@ public class UpdateProfileActivity extends AppCompatActivity {
             // Password
         }
         else {
-            textGender=radioButtonUpdateGenderSelected.getText().toString();
-            textFullName=editTextUpdateName.getText().toString();
+            textFullName = editTextUpdateName.getText().toString(); // Update textFullName here
             textID = editTextUpdateID.getText().toString();
-            textDate=editTextUpdateDate.getText().toString();
-            textMobile=editTextUpdateMobile.getText().toString();
+            textDate = editTextUpdateDate.getText().toString();
+            textGender = radioButtonUpdateGenderSelected.getText().toString();
+            textMobile = editTextUpdateMobile.getText().toString();
+
             //Entering user data to the Firebase
-            ReadWriteUserDetails writeUserDetails=new ReadWriteUserDetails(textID,textDate,textGender,textMobile);
+            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textDate, textGender, textMobile);
+
             //Extract Reference
-            DatabaseReference referenceProfile=FirebaseDatabase.getInstance().getReference("Registered Users");
-            String userID= firebaseUser.getUid();
+            DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
+            String userID = firebaseUser.getUid();
+
             referenceProfile.child(userID).setValue(writeUserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        //Update and set new display name
-                        UserProfileChangeRequest profileUpdate=new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
-                        firebaseUser.updateProfile(profileUpdate);
-                        Toast.makeText(UpdateProfileActivity.this,"Updated Successfully!",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(UpdateProfileActivity.this, FragmentUserProfile.class);
-                        getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
-                        startActivity(new Intent(UpdateProfileActivity.this, FragmentUserProfile.class));
-                        finish();
-                    }else{
-                        try{
+                    if (task.isSuccessful()) {
+                        // Update and set new display name
+                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
+                        firebaseUser.updateProfile(profileUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(UpdateProfileActivity.this, "Updated Successfully! You may need to restart your application.", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdateProfileActivity.this, FragmentUserProfile.class);
+                                    getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
+                                    startActivity(new Intent(UpdateProfileActivity.this, FragmentUserProfile.class));
+                                    finish();
+                                } else {
+                                    try {
+                                        throw task.getException();
+                                    } catch (Exception e) {
+                                        Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        try {
                             throw task.getException();
-                        }catch(Exception e){
-                            Toast.makeText(UpdateProfileActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
-                    progressBar.setVisibility(View.VISIBLE);
 
+                    progressBar.setVisibility(View.GONE);
                 }
             });
         }
@@ -180,29 +195,37 @@ public class UpdateProfileActivity extends AppCompatActivity {
         referencePfp.child(uidRegistered).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ReadWriteUserDetails readUserDetails= snapshot.getValue(ReadWriteUserDetails.class);
-                if(readUserDetails!=null){
-                    textFullName=firebaseUser.getDisplayName();
-                    textDate=readUserDetails.getBirthday();
-                    textID=readUserDetails.getID();
-                    textGender=readUserDetails.getGender();
-                    textMobile=readUserDetails.getMobile();
-                    editTextUpdateName.setText(textFullName);
-                    editTextUpdateDate.setText(textDate);
-                    editTextUpdateMobile.setText(textMobile);
-                    if(textGender.equals("Male")){
-                        radioButtonUpdateGenderSelected=findViewById(R.id.radio_updateMale);
+                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
+                if (readUserDetails != null) {
+                    textFullName = firebaseUser.getDisplayName();
+                    textDate = readUserDetails.getBirthday();
+                    textID = readUserDetails.getID();
+                    textGender = readUserDetails.getGender();
+                    textMobile = readUserDetails.getMobile();
+
+                    // Check if the display name is also available
+                    if (textFullName != null) {
+                        editTextUpdateName.setText(textFullName);
+                        editTextUpdateDate.setText(textDate);
+                        editTextUpdateMobile.setText(textMobile);
+                        editTextUpdateID.setText(textID);
+
+                        if ("Male".equals(textGender)) {
+                            radioButtonUpdateGenderSelected = findViewById(R.id.radio_updateMale);
+                        } else {
+                            radioButtonUpdateGenderSelected = findViewById(R.id.radio_updateFemale);
+                        }
+                        radioButtonUpdateGenderSelected.setChecked(true);
+                    } else {
+                        // If display name is not available, show a message or take appropriate action
+                        Toast.makeText(UpdateProfileActivity.this, "Display name not available.", Toast.LENGTH_SHORT).show();
                     }
-                    else {
-                        radioButtonUpdateGenderSelected = findViewById(R.id.radio_updateFemale);
-                    }
-                    radioButtonUpdateGenderSelected.setChecked(true);
-                }
-                else {
-                    Toast.makeText(UpdateProfileActivity.this,"Something Went Wrong!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UpdateProfileActivity.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
                 }
                 progressBar.setVisibility(View.GONE);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
