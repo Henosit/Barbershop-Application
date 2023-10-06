@@ -145,6 +145,7 @@
                     android:background="@android:color/transparent"
                     android:hint="enter your password"
                     android:inputType="textPassword"
+                    android:minHeight="48dp"
                     android:padding="6dp"
                     android:textSize="16sp" />
 
@@ -241,6 +242,7 @@
                     android:background="@android:color/transparent"
                     android:hint="enter your new email address"
                     android:inputType="textEmailAddress"
+                    android:minHeight="48dp"
                     android:padding="6dp"
                     android:textSize="16sp" />
             </RelativeLayout>
