@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barbershopapp.activities.AppointmentActivity;
@@ -53,13 +54,21 @@ import java.util.regex.Pattern;
 public class FragmentRegister extends Fragment {
 
     private MainActivity mainActivity;
-    private EditText editTextRegFullName, editTextRegEmail, editTextRegID, editTextRegBirthday, editTextRegMobile, editTextRegPwd, editTextRegConfirmPwd;
+    private TextView textViewAdmin;
+
+    public static String getSecretAdminCode() {
+        return secretAdminCode;
+    }
+
+    private static String secretAdminCode = "SecretAdminCode123";
+    private EditText editTextRegFullName, editTextRegEmail, editTextRegID, editTextRegBirthday, editTextRegMobile, editTextAdminCode, editTextRegPwd, editTextRegConfirmPwd;
     private ProgressBar progressBar;
-    private RadioGroup radioGroupRegGender;
-    private RadioButton radioButtonRegGenderSelected;
+    private RadioGroup radioGroupRegGender, radioGroupRegAdmin;
+    private RadioButton radioButtonRegGenderSelected, radioButtonRegAdminSelected;
     private DatePickerDialog picker;
     private static final String TAG = "FragmentRegister";
     private FragmentActivity fragmentActivity;
+    private Boolean adminSelected = false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,13 +130,22 @@ public class FragmentRegister extends Fragment {
         editTextRegID = v.findViewById(R.id.idUserReg);
         editTextRegBirthday = v.findViewById(R.id.birthdayUserReg);
         editTextRegMobile = v.findViewById(R.id.phoneUserReg);
+        editTextAdminCode = v.findViewById(R.id.editTextAdminCode);
         editTextRegPwd = v.findViewById(R.id.passUserReg);
         editTextRegConfirmPwd = v.findViewById(R.id.confirmPassUserReg);
+
+        textViewAdmin = v.findViewById(R.id.textViewAdmin);
+
+        textViewAdmin.setVisibility(View.GONE);
+        editTextAdminCode.setVisibility(View.GONE);
 
         progressBar = v.findViewById(R.id.progressBar);
 
         radioGroupRegGender = v.findViewById(R.id.radioGroupRegGender);
         radioGroupRegGender.clearCheck();
+
+        radioGroupRegAdmin = v.findViewById(R.id.radioGroupRegAdmin);
+        radioGroupRegAdmin.clearCheck();
 
         // Setting up Date Picker on EditText
         editTextRegBirthday.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +167,24 @@ public class FragmentRegister extends Fragment {
             }
         });
 
+        radioGroupRegAdmin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioButtonRegAdmin) {
+                    // Show the additional admin input fields
+                    textViewAdmin.setVisibility(View.VISIBLE);
+                    editTextAdminCode.setVisibility(View.VISIBLE);
+                    adminSelected = true;
+                } else {
+                    // Unchecked, hide the admin input fields
+                    textViewAdmin.setVisibility(View.GONE);
+                    editTextAdminCode.setVisibility(View.GONE);
+                    adminSelected = false;
+                }
+            }
+        });
+
+
         Button buttonReg = v.findViewById(R.id.buttonReg2);
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,17 +198,22 @@ public class FragmentRegister extends Fragment {
                 String textID = editTextRegID.getText().toString();
                 String textBirthday = editTextRegBirthday.getText().toString();
                 String textMobile = editTextRegMobile.getText().toString();
+                String textAdminPwd = null;
                 String textPwd = editTextRegPwd.getText().toString();
                 String textConfirmPwd = editTextRegConfirmPwd.getText().toString();
                 String textGender = null; // Can't obtain the value before verifying if any button was selected or not
 
+                if (adminSelected) {
+                    textAdminPwd = editTextAdminCode.getText().toString();
+                }
+
                if (ValidateRegAndHandleErrors(fragmentActivity, editTextRegFullName, editTextRegEmail,
-                        editTextRegID, editTextRegBirthday, editTextRegMobile,
+                        editTextRegID, editTextRegBirthday, editTextRegMobile, editTextAdminCode,
                         editTextRegPwd, editTextRegConfirmPwd, textFullName,
                         textEmail, textID, textBirthday, textMobile, textPwd, textConfirmPwd,
-                       progressBar, textGender, radioButtonRegGenderSelected, radioGroupRegGender)==true) {
+                       progressBar, textGender, radioButtonRegGenderSelected, radioGroupRegGender, adminSelected, textAdminPwd)==true) {
                    textGender = radioButtonRegGenderSelected.getText().toString();
-                   registerUser(textFullName, textEmail, textID, textBirthday, textGender, textMobile, textPwd);
+                   registerUser(textFullName, textEmail, textID, textBirthday, textGender, textMobile, textPwd, adminSelected);
                }
             }
         });
@@ -181,7 +222,7 @@ public class FragmentRegister extends Fragment {
     }
 
     // Register User using the credentials given
-    public void registerUser(String textFullName, String textEmail, String textID, String textBirthday, String textGender, String textMobile, String textPwd) {
+    public void registerUser(String textFullName, String textEmail, String textID, String textBirthday, String textGender, String textMobile, String textPwd, Boolean adminSelected) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         // Create User Profile
@@ -195,8 +236,13 @@ public class FragmentRegister extends Fragment {
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
                     firebaseUser.updateProfile(profileChangeRequest);
 
+                    String role = "User";
+                    if (adminSelected) {
+                        role = "Admin";
+                    }
+
                     // Enter User Data into the Firebase Realtime DB
-                    ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textBirthday, textGender, textMobile);
+                    ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textBirthday, textGender, textMobile, role);
 
                     // Extracting user reference from DB for "Registered Users"
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -242,10 +288,11 @@ public class FragmentRegister extends Fragment {
 
     public static boolean ValidateRegAndHandleErrors(FragmentActivity fragmentActivity, EditText editTextRegFullName, EditText editTextRegEmail,
                                                      EditText editTextRegID, EditText editTextRegBirthday, EditText editTextRegMobile,
-                                                     EditText editTextRegPwd, EditText editTextRegConfirmPwd, String textFullName,
+                                                     EditText editTextAdminCode, EditText editTextRegPwd, EditText editTextRegConfirmPwd, String textFullName,
                                                      String textEmail, String textID, String textBirthday, String textMobile,
                                                      String textPwd, String textConfirmPwd, ProgressBar progressBar,
-                                                     String textGender, RadioButton radioButtonRegGenderSelected, RadioGroup radioGroupRegGender) {
+                                                     String textGender, RadioButton radioButtonRegGenderSelected, RadioGroup radioGroupRegGender,
+                                                     Boolean adminSelected, String textAdminPwd) {
         // Validate mobile number using Matcher and Pattern (Regular Expression)
         String mobileRegex = "05[0-9]{8}";
         Matcher mobileMatcher;
@@ -293,7 +340,7 @@ public class FragmentRegister extends Fragment {
         } else if (TextUtils.isEmpty(textPwd)) {
             ErrorHandler.showError(fragmentActivity,"Please enter your password", editTextRegPwd, "Password is required");
             return false;
-        } else if (textPwd.length() < 6) {
+        }  else if (textPwd.length() < 6) {
             ErrorHandler.showError(fragmentActivity,"Password should be at least 6 digits", editTextRegPwd, "Password too weak");
             return false;
         } else if (TextUtils.isEmpty(textConfirmPwd)) {
@@ -306,6 +353,14 @@ public class FragmentRegister extends Fragment {
             editTextRegConfirmPwd.getText().clear();
             return false;
             // User entered everything correctly
+        } else if (adminSelected) {
+            if (!textAdminPwd.equals(getSecretAdminCode())) {
+                ErrorHandler.showError(fragmentActivity,"Invalid admin code", editTextAdminCode,"Admin code is incorrect");
+                Toast.makeText(fragmentActivity, "Invalid admin code", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+            return true;
         } else {
             progressBar.setVisibility(View.VISIBLE);
             return true;

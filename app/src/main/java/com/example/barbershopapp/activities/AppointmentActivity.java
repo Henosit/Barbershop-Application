@@ -36,8 +36,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class AppointmentActivity extends Activity {
 
@@ -116,7 +118,20 @@ public class AppointmentActivity extends Activity {
                             Toast.makeText(getApplicationContext(), "No time slot selected yet", Toast.LENGTH_SHORT).show();
                         } else {
                             // Update time slot colors when a date is selected
-                            bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                            TimeZone israelTimeZone = TimeZone.getTimeZone("Asia/Jerusalem");
+                            Calendar calendar = Calendar.getInstance(israelTimeZone);
+                            int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // Get the current hour
+                            int selectedHour = Integer.parseInt(selectedTimeSlot.split(":")[0]); // Assuming time slots are in HH:mm format
+
+                            if (currentDate.equals(todayDate)) {
+                                if (selectedHour < currentHour) {
+                                    Toast.makeText(getApplicationContext(), "Please select a valid, future date", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                                }
+                            } else {
+                                bookAppointment(currentDate, selectedBarber, selectedTreatment, selectedTimeSlot);
+                            }
                         }
                     }
                 } else {
@@ -178,9 +193,10 @@ public class AppointmentActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "Appointment booked for " +
                                                 date + "\nBarber: " + barber + "\nTreatment: " + treatment + "\nTime Slot: " + timeSlot,
                                         Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(),"If you wish to change your appointment, please restart the application.",Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
                                 getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
-                                startActivity(new Intent(AppointmentActivity.this, FragmentUserProfile.class));
+                                startActivity(intent);
                                 finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Appointment booking failed. Please try again.", Toast.LENGTH_SHORT).show();

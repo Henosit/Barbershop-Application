@@ -147,11 +147,28 @@
             android:textColor="#555555"
             android:minHeight="48dp"
             />
+
+        <RadioGroup
+        android:layout_width="match_parent"
+        android:id="@+id/radioGroup_admin"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_update_Mobile"
+        android:orientation="horizontal">
+        <android.widget.RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_adminSelected"
+            android:text="Admin User"
+            android:button="@drawable/radio_button_white"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:textColor="#666666" />
+    </RadioGroup>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/buttonUpdateEmail"
-            android:layout_below="@id/editText_update_Mobile"
+            android:layout_below="@id/radioGroup_admin"
             android:layout_marginTop="30dp"
             android:layout_marginRight="70dp"
             android:layout_marginLeft="70dp"

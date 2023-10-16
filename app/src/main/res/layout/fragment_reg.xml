@@ -218,6 +218,48 @@
             android:inputType="textPassword"
             android:minHeight="48dp" />
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/radioGroupRegAdmin"
+            android:padding="5dp">
+
+        <android.widget.RadioButton
+            android:id="@+id/radioButtonRegAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin User"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:button="@drawable/radio_button_white"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewAdmin"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_weight="0.03"
+            android:padding="5dp"
+            android:text="Admin users only" />
+
+        <EditText
+            android:id="@+id/editTextAdminCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:textColor="@color/white"
+            android:background="#30ffffff"
+            android:textColorHint="@color/white"
+            android:visibility="gone"
+            android:ems="10"
+            android:hint="Admin Registration Code"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+
         <Button
             android:id="@+id/buttonReg2"
             android:layout_width="wrap_content"

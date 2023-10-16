@@ -41,7 +41,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
     private EditText editTextUpdateName, editTextUpdateID, editTextUpdateDate, editTextUpdateMobile;
     private RadioGroup radioGroupUpdateGender;
     private RadioButton radioButtonUpdateGenderSelected;
-    private String textFullName, textID, textDate, textGender, textMobile;
+
+//    For display only, changeable only through Firebase
+    private RadioGroup radioGroupAdmin;
+    private RadioButton radioButtonAdminSelected;
+    private String textFullName, textID, textDate, textGender, textMobile, textRole;
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
 
@@ -55,6 +59,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         editTextUpdateMobile = findViewById(R.id.editText_update_Mobile);
         editTextUpdateName = findViewById(R.id.editText_update_Profile_Name);
         radioGroupUpdateGender = findViewById(R.id.radioGroup_Update_Gender);
+        radioGroupAdmin = findViewById(R.id.radioGroup_admin);
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
         //Show profile Data
@@ -138,9 +143,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
             textDate = editTextUpdateDate.getText().toString();
             textGender = radioButtonUpdateGenderSelected.getText().toString();
             textMobile = editTextUpdateMobile.getText().toString();
-
             //Entering user data to the Firebase
-            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textDate, textGender, textMobile);
+            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textDate, textGender, textMobile, textRole);
 
             //Extract Reference
             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -202,6 +206,15 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     textID = readUserDetails.getID();
                     textGender = readUserDetails.getGender();
                     textMobile = readUserDetails.getMobile();
+                    textRole = readUserDetails.getRole();
+
+                    if (textRole == "Admin") {
+                        radioButtonAdminSelected.setChecked(true);
+                        radioButtonAdminSelected.setVisibility(View.VISIBLE);
+                    } else {
+                        radioButtonAdminSelected.setChecked(false);
+                        radioButtonAdminSelected.setVisibility(View.GONE);
+                    }
 
                     // Check if the display name is also available
                     if (textFullName != null) {

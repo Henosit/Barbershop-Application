@@ -218,8 +218,15 @@ public class FragmentLogin extends Fragment {
                     } catch (FirebaseAuthInvalidUserException e) {
                         ErrorHandler.showError(fragmentActivity,null,editTextLoginEmail,"User doesn't exist or is no longer valid. Please register again.");
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        ErrorHandler.showError(fragmentActivity,null,editTextLoginEmail,"Invalid credentials. Kindly, check and re-enter.");
-                    } catch (Exception e) {
+                    // Check the specific type of exception to distinguish between email and password errors
+                    if (e.getMessage() != null && e.getMessage().contains("email")) {
+                        ErrorHandler.showError(fragmentActivity, null, editTextLoginEmail, "Invalid email. Kindly, check and re-enter.");
+                    } else if (e.getMessage() != null && e.getMessage().contains("password")) {
+                        ErrorHandler.showError(fragmentActivity, null, editTextLoginPwd, "Invalid password. Kindly, check and re-enter.");
+                    } else {
+                        ErrorHandler.showError(fragmentActivity, null, editTextLoginEmail, "Invalid credentials. Kindly, check and re-enter.");
+                    }
+                } catch (Exception e) {
                         Log.e(TAG, e.getMessage());
                         Toast.makeText(fragmentActivity, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     }
