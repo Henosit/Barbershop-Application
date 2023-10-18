@@ -195,7 +195,7 @@ public class AppointmentActivity extends Activity {
                                         Toast.LENGTH_LONG).show();
 //                                Toast.makeText(getApplicationContext(),"If you wish to change your appointment, please restart the application.",Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
-                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
+//                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                                 startActivity(intent);
                                 finish();
                             } else {
