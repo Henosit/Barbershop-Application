@@ -218,29 +218,38 @@
             android:inputType="textPassword"
             android:minHeight="48dp" />
 
-        <RadioGroup
+<!--        <RadioGroup-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:id="@+id/radioGroupRegAdmin"-->
+<!--            android:padding="5dp">-->
+
+<!--            <android.widget.RadioButton-->
+<!--                android:id="@+id/radioButtonRegAdmin"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:button="@drawable/radio_button_white"-->
+<!--                android:text="Admin User"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="16sp" />-->
+<!--        </RadioGroup>-->
+
+        <Switch
+            android:id="@+id/switchAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/radioGroupRegAdmin"
-            android:padding="5dp">
-
-        <android.widget.RadioButton
-            android:id="@+id/radioButtonRegAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Admin User"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:button="@drawable/radio_button_white"/>
-        </RadioGroup>
+            android:layout_gravity="start"
+            android:paddingRight="300dp"
+            android:text="Admin"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textViewAdmin"
             android:layout_width="match_parent"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_weight="0.03"
             android:padding="5dp"
             android:text="Admin users only" />
@@ -253,7 +262,7 @@
             android:textColor="@color/white"
             android:background="#30ffffff"
             android:textColorHint="@color/white"
-            android:visibility="gone"
+            android:visibility="visible"
             android:ems="10"
             android:hint="Admin Registration Code"
             android:inputType="textPassword"

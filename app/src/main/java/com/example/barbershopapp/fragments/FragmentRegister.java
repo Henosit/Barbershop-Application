@@ -17,11 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,12 +65,13 @@ public class FragmentRegister extends Fragment {
     private static String secretAdminCode = "SecretAdminCode123";
     private EditText editTextRegFullName, editTextRegEmail, editTextRegID, editTextRegBirthday, editTextRegMobile, editTextAdminCode, editTextRegPwd, editTextRegConfirmPwd;
     private ProgressBar progressBar;
-    private RadioGroup radioGroupRegGender, radioGroupRegAdmin;
-    private RadioButton radioButtonRegGenderSelected, radioButtonRegAdminSelected;
+    private RadioGroup radioGroupRegGender;
+    private RadioButton radioButtonRegGenderSelected;
     private DatePickerDialog picker;
     private static final String TAG = "FragmentRegister";
     private FragmentActivity fragmentActivity;
     private Boolean adminSelected = false;
+    private Switch switchAdmin;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -144,8 +147,8 @@ public class FragmentRegister extends Fragment {
         radioGroupRegGender = v.findViewById(R.id.radioGroupRegGender);
         radioGroupRegGender.clearCheck();
 
-        radioGroupRegAdmin = v.findViewById(R.id.radioGroupRegAdmin);
-        radioGroupRegAdmin.clearCheck();
+        switchAdmin = v.findViewById(R.id.switchAdmin);
+        switchAdmin.setChecked(false);
 
         // Setting up Date Picker on EditText
         editTextRegBirthday.setOnClickListener(new View.OnClickListener() {
@@ -167,23 +170,21 @@ public class FragmentRegister extends Fragment {
             }
         });
 
-        radioGroupRegAdmin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        switchAdmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.radioButtonRegAdmin) {
-                    // Show the additional admin input fields
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    adminSelected = true;
                     textViewAdmin.setVisibility(View.VISIBLE);
                     editTextAdminCode.setVisibility(View.VISIBLE);
-                    adminSelected = true;
+
                 } else {
-                    // Unchecked, hide the admin input fields
+                    adminSelected = false;
                     textViewAdmin.setVisibility(View.GONE);
                     editTextAdminCode.setVisibility(View.GONE);
-                    adminSelected = false;
                 }
             }
         });
-
 
         Button buttonReg = v.findViewById(R.id.buttonReg2);
         buttonReg.setOnClickListener(new View.OnClickListener() {

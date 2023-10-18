@@ -192,9 +192,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     //fetch data
     private void showProfile(FirebaseUser firebaseUser) {
-        String uidRegistered=firebaseUser.getUid();
-        //Extract reference
-        DatabaseReference referencePfp= FirebaseDatabase.getInstance().getReference("Registered Users");
+        String uidRegistered = firebaseUser.getUid();
+        // Extract reference
+        DatabaseReference referencePfp = FirebaseDatabase.getInstance().getReference("Registered Users");
         progressBar.setVisibility(View.VISIBLE);
         referencePfp.child(uidRegistered).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -207,8 +207,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     textGender = readUserDetails.getGender();
                     textMobile = readUserDetails.getMobile();
                     textRole = readUserDetails.getRole();
+                    radioButtonAdminSelected = findViewById(R.id.radio_adminSelected);
 
-                    if (textRole == "Admin") {
+                    // Check and set the radio button for the role
+                    if ("Admin".equals(textRole)) { // Use .equals() for string comparison
                         radioButtonAdminSelected.setChecked(true);
                         radioButtonAdminSelected.setVisibility(View.VISIBLE);
                     } else {
@@ -239,12 +241,13 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(UpdateProfileActivity.this,"Something Went Wrong!",Toast.LENGTH_SHORT).show();
+                // Handle the error appropriately, e.g., show an error message
+                Toast.makeText(UpdateProfileActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
     }
+
 }
