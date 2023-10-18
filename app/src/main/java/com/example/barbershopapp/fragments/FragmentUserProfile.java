@@ -1,6 +1,5 @@
 package com.example.barbershopapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barbershopapp.activities.AppointmentActivity;
 import com.example.barbershopapp.activities.MainActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
@@ -43,6 +41,7 @@ public class FragmentUserProfile extends Fragment {
     private String fullName, email, birthday, gender, mobile, appointment;
     private ImageView imageViewProfile;
     private FirebaseAuth authProfile;
+    private MainActivity mainActivity;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,6 +87,11 @@ public class FragmentUserProfile extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+        try {
+            mainActivity = (MainActivity)getActivity();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -114,6 +118,36 @@ public class FragmentUserProfile extends Fragment {
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String uidRegistered = firebaseUser.getUid();
+        DatabaseReference referencePfp = FirebaseDatabase.getInstance().getReference("Registered Users");
+        referencePfp.child(uidRegistered).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
+                if (readUserDetails != null) {
+                    String role = readUserDetails.getRole();
+
+                    // Check and set the radio button for the role
+                    if ("Admin".equals(role)) { // Use .equals() for string comparison
+                        // Admin
+                        mainActivity.changeMenuByRole(true);
+
+                    } else if ("User".equals(role)) {
+                        // User
+                        mainActivity.changeMenuByRole(false);
+                    }
+                } else {
+                    // Handle the case where user details are not available.
+                    Toast.makeText(getContext(), "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle the error appropriately, e.g., show an error message
+            }
+        });
+
 
         if (firebaseUser == null) {
             Toast.makeText(fragmentActivity,"Something went wrong! User's details are not available at the moment",Toast.LENGTH_LONG).show();

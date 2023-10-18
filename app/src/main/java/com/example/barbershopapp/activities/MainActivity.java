@@ -20,6 +20,7 @@ import com.example.barbershopapp.fragments.FragmentUserProfile;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    MenuItem bookingMenuItem, viewAppointmentsMenuItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    MenuItem bookingMenuItem = menu.findItem(R.id.menu_booking);
+                    bookingMenuItem = menu.findItem(R.id.menu_booking);
                 bookingMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -132,6 +133,17 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+                    viewAppointmentsMenuItem = menu.findItem(R.id.menu_view_appointments);
+                    viewAppointmentsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            // Delete Profile
+                            Intent intent = new Intent (MainActivity.this, ViewAppointmentsActivity.class);
+                            startActivity(intent);
+                            return true;
+                        }
+                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -144,5 +156,15 @@ public class MainActivity extends AppCompatActivity {
 
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public void changeMenuByRole(Boolean isAdmin) {
+        if (isAdmin) {
+            bookingMenuItem.setVisible(false);
+            viewAppointmentsMenuItem.setVisible(true);
+        } else {
+            bookingMenuItem.setVisible(true);
+            viewAppointmentsMenuItem.setVisible(false);
+        }
     }
 }
