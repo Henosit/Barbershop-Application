@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.barbershopapp.R;
 import com.example.barbershopapp.utils.AppointmentAdapter;
+import com.example.barbershopapp.utils.AppointmentComparator;
 import com.example.barbershopapp.utils.ReadWriteAppointmentDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ViewAppointmentsActivity extends AppCompatActivity {
@@ -52,6 +54,8 @@ public class ViewAppointmentsActivity extends AppCompatActivity {
                     ReadWriteAppointmentDetails appointment = new ReadWriteAppointmentDetails(date,barber,treatment,timeSlot);
                     appointmentList.add(appointment);
                 }
+                // Sort the list of appointments by date
+                Collections.sort(appointmentList, new AppointmentComparator());
 
                 // Update the RecyclerView adapter with the fetched data
                 adapter = new AppointmentAdapter(appointmentList);

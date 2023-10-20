@@ -37,7 +37,6 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         holder.textViewBarber.setText("Barber: " + appointment.getBarber());
         holder.textViewTreatment.setText("Treatment: " + appointment.getTreatment());
         holder.textViewTimeSlot.setText("TimeSlot: " + appointment.getTimeSlot());
-        holder.textViewUserName.setText("UserName: ");
     }
 
     @Override
@@ -57,7 +56,6 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             textViewTimeSlot=itemView.findViewById(R.id.textViewTimeSlot);
             textViewTreatment = itemView.findViewById(R.id.textViewTreatment);
             textViewBarber=itemView.findViewById(R.id.textViewBarber);
-            textViewUserName=itemView.findViewById(R.id.textViewAppointment_userName);
         }
     }
 }
