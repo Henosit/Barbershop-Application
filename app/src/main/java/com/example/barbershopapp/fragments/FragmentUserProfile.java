@@ -180,7 +180,7 @@ public class FragmentUserProfile extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
                 if (readUserDetails != null) {
-                    fullName = firebaseUser.getDisplayName();
+                    fullName = readUserDetails.getUsername();
                     email = firebaseUser.getEmail();
                     birthday = readUserDetails.getBirthday();
                     gender = readUserDetails.getGender();

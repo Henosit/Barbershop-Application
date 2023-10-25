@@ -144,7 +144,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             textGender = radioButtonUpdateGenderSelected.getText().toString();
             textMobile = editTextUpdateMobile.getText().toString();
             //Entering user data to the Firebase
-            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textDate, textGender, textMobile, textRole);
+            ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textFullName, textID, textDate, textGender, textMobile, textRole);
 
             //Extract Reference
             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
@@ -154,26 +154,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        // Update and set new display name
-                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
-                        firebaseUser.updateProfile(profileUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(UpdateProfileActivity.this, "Updated Successfully! You may need to restart your application.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateProfileActivity.this, "Updated Successfully! You may need to restart your application.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(UpdateProfileActivity.this, FragmentUserProfile.class);
                                     getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                                     startActivity(new Intent(UpdateProfileActivity.this, FragmentUserProfile.class));
                                     finish();
-                                } else {
-                                    try {
-                                        throw task.getException();
-                                    } catch (Exception e) {
-                                        Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
-                        });
                     } else {
                         try {
                             throw task.getException();
@@ -181,9 +166,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
                             Toast.makeText(UpdateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
-
                     progressBar.setVisibility(View.GONE);
                 }
+//
             });
         }
     }
@@ -201,7 +186,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ReadWriteUserDetails readUserDetails = snapshot.getValue(ReadWriteUserDetails.class);
                 if (readUserDetails != null) {
-                    textFullName = firebaseUser.getDisplayName();
+                    textFullName = readUserDetails.getUsername();
                     textDate = readUserDetails.getBirthday();
                     textID = readUserDetails.getID();
                     textGender = readUserDetails.getGender();

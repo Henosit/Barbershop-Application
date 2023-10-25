@@ -7,6 +7,16 @@ public class ReadWriteUserDetails {
     private String gender;
     private String mobile;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    private String username;
+
     public String getRole() {
         return role;
     }
@@ -20,7 +30,8 @@ public class ReadWriteUserDetails {
     public ReadWriteUserDetails() {
     }
 
-    public ReadWriteUserDetails(String ID, String birthday, String gender, String mobile, String role) {
+    public ReadWriteUserDetails(String username, String ID, String birthday, String gender, String mobile, String role) {
+        this.username = username;
         this.ID = ID;
         this.birthday = birthday;
         this.gender = gender;

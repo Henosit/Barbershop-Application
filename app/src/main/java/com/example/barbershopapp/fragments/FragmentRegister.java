@@ -243,7 +243,7 @@ public class FragmentRegister extends Fragment {
                     }
 
                     // Enter User Data into the Firebase Realtime DB
-                    ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textID, textBirthday, textGender, textMobile, role);
+                    ReadWriteUserDetails writeUserDetails = new ReadWriteUserDetails(textFullName,textID, textBirthday, textGender, textMobile, role);
 
                     // Extracting user reference from DB for "Registered Users"
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
