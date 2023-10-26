@@ -131,6 +131,7 @@ public class FragmentUserProfile extends Fragment {
                     if ("Admin".equals(role)) { // Use .equals() for string comparison
                         // Admin
                         mainActivity.changeMenuByRole(true);
+                        textViewShowAppointment.setText("Hello admin");
 
                     } else if ("User".equals(role)) {
                         // User

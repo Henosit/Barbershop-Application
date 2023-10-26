@@ -99,7 +99,8 @@ public class AppointmentActivity extends Activity {
             @Override
             public void onClick(View view) {
                 cancelAppointment();
-                checkIfAppointmentExists();
+                if(!appointmentExists)
+                    cancelBookButton.setVisibility(View.GONE);
 
             }
         });
@@ -243,6 +244,10 @@ public class AppointmentActivity extends Activity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     // Get the key of the data you want to delete
                     String key = snapshot.getKey();
+                    String existingDate = snapshot.child("date").getValue(String.class);
+                    String existingBarber = snapshot.child("barber").getValue(String.class);
+                    String existingTimeSlot = snapshot.child("timeSlot").getValue(String.class);
+                    String existingTreatment = snapshot.child("timeSlot").getValue(String.class);
 
                     // Remove the data
                     appointmentsRef.child(key).removeValue()
@@ -251,8 +256,13 @@ public class AppointmentActivity extends Activity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         // Display a confirmation message
-                                        Toast.makeText(getApplicationContext(), "Appointment canceled successfully", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Appointment Canceled Successfully for " +
+                                                        existingTimeSlot + "\nBarber: " + existingBarber + "\nTreatment: " + existingTreatment + "\nTime Slot: " + existingTimeSlot,
+                                                Toast.LENGTH_LONG).show();
                                         appointmentExists = false;
+                                        Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
+                                        startActivity(intent);
+                                        finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Appointment cancellation failed. Please try again.", Toast.LENGTH_SHORT).show();
                                     }
@@ -280,12 +290,10 @@ public class AppointmentActivity extends Activity {
                     // An appointment exists for the current user, so make the button visible
                     cancelBookButton.setVisibility(View.VISIBLE);
                     appointmentExists = true;
-                    Toast.makeText(AppointmentActivity.this, "EXISTS", Toast.LENGTH_SHORT).show();
                 } else {
                     // No appointment exists, so hide the button
                     cancelBookButton.setVisibility(View.GONE);
                     appointmentExists = false;
-                    Toast.makeText(AppointmentActivity.this, "DEAD", Toast.LENGTH_SHORT).show();
                 }
             }
 
