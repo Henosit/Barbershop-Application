@@ -1,5 +1,7 @@
 package com.example.barbershopapp.fragments;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barbershopapp.activities.MainActivity;
+import com.example.barbershopapp.activities.UploadProfilePictureActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
 import com.example.barbershopapp.utils.ReadWriteAppointmentDetails;
@@ -110,6 +113,14 @@ public class FragmentUserProfile extends Fragment {
         textViewShowAppointment = v.findViewById(R.id.textView_show_appointment);
         progressBar = v.findViewById(R.id.progressBar);
 
+        imageViewProfile=v.findViewById(R.id.imageView_profile_dp);
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getContext(), UploadProfilePictureActivity.class);
+                startActivity(intent);
+            }
+        });
         // Toolbar
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity!=null) {
