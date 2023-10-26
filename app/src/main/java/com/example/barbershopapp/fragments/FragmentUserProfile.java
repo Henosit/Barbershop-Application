@@ -1,5 +1,7 @@
 package com.example.barbershopapp.fragments;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barbershopapp.activities.MainActivity;
+import com.example.barbershopapp.activities.UploadProfilePictureActivity;
 import com.example.barbershopapp.utils.ErrorHandler;
 import com.example.barbershopapp.R;
 import com.example.barbershopapp.utils.ReadWriteAppointmentDetails;
@@ -42,6 +45,7 @@ public class FragmentUserProfile extends Fragment {
     private ImageView imageViewProfile;
     private FirebaseAuth authProfile;
     private MainActivity mainActivity;
+    private Boolean isAdmin=false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,6 +113,14 @@ public class FragmentUserProfile extends Fragment {
         textViewShowAppointment = v.findViewById(R.id.textView_show_appointment);
         progressBar = v.findViewById(R.id.progressBar);
 
+        imageViewProfile=v.findViewById(R.id.imageView_profile_dp);
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getContext(), UploadProfilePictureActivity.class);
+                startActivity(intent);
+            }
+        });
         // Toolbar
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity!=null) {
@@ -130,7 +142,9 @@ public class FragmentUserProfile extends Fragment {
                     // Check and set the radio button for the role
                     if ("Admin".equals(role)) { // Use .equals() for string comparison
                         // Admin
+                        isAdmin=true;
                         mainActivity.changeMenuByRole(true);
+                        textViewShowAppointment.setText("Hello Admin \nYou can see your upcoming appointments using the menu");
 
                     } else if ("User".equals(role)) {
                         // User
@@ -207,12 +221,13 @@ public class FragmentUserProfile extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ReadWriteAppointmentDetails readAppointmentDetails = snapshot.getValue(ReadWriteAppointmentDetails.class);
-                if (readAppointmentDetails != null) {
-                    appointment = readAppointmentDetails.getAppointmentDetails();
-                    textViewShowAppointment.setText(appointment);
-                }
-                else{
-                    textViewShowAppointment.setText("You haven't booked with us yet...");
+                if(!isAdmin) {
+                    if (readAppointmentDetails != null) {
+                        appointment = readAppointmentDetails.getAppointmentDetails();
+                        textViewShowAppointment.setText(appointment);
+                    } else {
+                        textViewShowAppointment.setText("You haven't booked with us yet...");
+                    }
                 }
             }
 

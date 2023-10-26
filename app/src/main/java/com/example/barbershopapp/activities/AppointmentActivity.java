@@ -49,9 +49,12 @@ public class AppointmentActivity extends Activity {
     private Spinner timeSlotSpinner; // New Spinner for time slots
     private Button bookButton;
 
+    private Button cancelBookButton;
     private FirebaseAuth authProfile;
     FirebaseUser firebaseUser;
     String currentDate;
+
+    private boolean appointmentExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,8 @@ public class AppointmentActivity extends Activity {
         treatmentSpinner = findViewById(R.id.treatmentSpinner);
         timeSlotSpinner = findViewById(R.id.timeSlotSpinner); // Initialize the new Spinner
         bookButton = findViewById(R.id.bookButton);
-
+        cancelBookButton=findViewById(R.id.cancelBookButton);
+        checkIfAppointmentExists();
         // Set up the Barber Spinner
         ArrayAdapter<CharSequence> barberAdapter = ArrayAdapter.createFromResource(this, R.array.barbers_array, android.R.layout.simple_spinner_item);
         barberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -91,7 +95,15 @@ public class AppointmentActivity extends Activity {
                 currentDate = formattedDate;
             }
         });
+        cancelBookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelAppointment();
+                if(!appointmentExists)
+                    cancelBookButton.setVisibility(View.GONE);
 
+            }
+        });
         // Set an onClickListener for the Book Button
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +205,7 @@ public class AppointmentActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "Appointment booked for " +
                                                 date + "\nBarber: " + barber + "\nTreatment: " + treatment + "\nTime Slot: " + timeSlot,
                                         Toast.LENGTH_LONG).show();
+                                appointmentExists=true;
 //                                Toast.makeText(getApplicationContext(),"If you wish to change your appointment, please restart the application.",Toast.LENGTH_SHORT).show();
                                 Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
 //                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
@@ -214,7 +227,82 @@ public class AppointmentActivity extends Activity {
             }
         });
     }
+    public void cancelAppointment() {
+        // Get a reference to your Firebase Realtime Database
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("Appointments");
 
+        // Get the appointment details from the selectedAppointment
+
+
+        // Get the appointment key to remove the appointment
+        Query appointmentKey = appointmentsRef.orderByKey().equalTo(firebaseUser.getUid());
+
+        // Remove the appointment from the database
+        appointmentKey.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Get the key of the data you want to delete
+                    String key = snapshot.getKey();
+                    String existingDate = snapshot.child("date").getValue(String.class);
+                    String existingBarber = snapshot.child("barber").getValue(String.class);
+                    String existingTimeSlot = snapshot.child("timeSlot").getValue(String.class);
+                    String existingTreatment = snapshot.child("timeSlot").getValue(String.class);
+
+                    // Remove the data
+                    appointmentsRef.child(key).removeValue()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        // Display a confirmation message
+                                        Toast.makeText(getApplicationContext(), "Appointment Canceled Successfully for " +
+                                                        existingTimeSlot + "\nBarber: " + existingBarber + "\nTreatment: " + existingTreatment + "\nTime Slot: " + existingTimeSlot,
+                                                Toast.LENGTH_LONG).show();
+                                        appointmentExists = false;
+                                        Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Appointment cancellation failed. Please try again.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AppointmentActivity.this, error.getMessage() + " Please try later again", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkIfAppointmentExists() {
+        DatabaseReference appointmentsRef = FirebaseDatabase.getInstance().getReference("Appointments");
+
+        Query userAppointmentQuery = appointmentsRef.orderByKey().equalTo(firebaseUser.getUid());
+
+        userAppointmentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // An appointment exists for the current user, so make the button visible
+                    cancelBookButton.setVisibility(View.VISIBLE);
+                    appointmentExists = true;
+                } else {
+                    // No appointment exists, so hide the button
+                    cancelBookButton.setVisibility(View.GONE);
+                    appointmentExists = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(AppointmentActivity.this, databaseError.getMessage() + " Please try later again", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     // Method to update time slot colors based on availability
 //    private void updateSlotColors(String selectedDate) {
 //        if (selectedDate != null) {
