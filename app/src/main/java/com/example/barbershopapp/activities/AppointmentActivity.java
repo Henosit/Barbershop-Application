@@ -207,7 +207,7 @@ public class AppointmentActivity extends Activity {
                                         Toast.LENGTH_LONG).show();
                                 appointmentExists=true;
 //                                Toast.makeText(getApplicationContext(),"If you wish to change your appointment, please restart the application.",Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
+                                Intent intent=new Intent(AppointmentActivity.this, MainActivity.class);
 //                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                                 startActivity(intent);
                                 finish();
@@ -260,7 +260,7 @@ public class AppointmentActivity extends Activity {
                                                         existingTimeSlot + "\nBarber: " + existingBarber + "\nTreatment: " + existingTreatment + "\nTime Slot: " + existingTimeSlot,
                                                 Toast.LENGTH_LONG).show();
                                         appointmentExists = false;
-                                        Intent intent=new Intent(AppointmentActivity.this, FragmentUserProfile.class);
+                                        Intent intent=new Intent(AppointmentActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     } else {

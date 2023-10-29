@@ -214,7 +214,12 @@ public class FragmentUserProfile extends Fragment {
                     Uri uri = firebaseUser.getPhotoUrl();
 
                     // ImageView setImageURI() should not be used with regular URIs, So we're using Picasso
-                    Picasso.get().load(uri).into(imageViewProfile);
+                    Picasso.get().invalidate(uri);
+                    try {
+                        Picasso.get().load(uri).into(imageViewProfile);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(fragmentActivity,"Something went wrong!", Toast.LENGTH_LONG).show();
                 }
