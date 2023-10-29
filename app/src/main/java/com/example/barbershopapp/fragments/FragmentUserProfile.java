@@ -2,6 +2,7 @@ package com.example.barbershopapp.fragments;
 
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -206,6 +209,14 @@ public class FragmentUserProfile extends Fragment {
                     textViewBirthday.setText(birthday);
                     textViewGender.setText(gender);
                     textViewMobile.setText(mobile);
+
+                    // Set User DP (After user has uploaded)
+                    Uri uri = firebaseUser.getPhotoUrl();
+
+                    // ImageView setImageURI() should not be used with regular URIs, So we're using Picasso
+                    Picasso.get().load(uri).into(imageViewProfile);
+                } else {
+                    Toast.makeText(fragmentActivity,"Something went wrong!", Toast.LENGTH_LONG).show();
                 }
                 progressBar.setVisibility(View.GONE);
             }

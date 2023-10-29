@@ -19,6 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.barbershopapp.R;
+import com.example.barbershopapp.fragments.FragmentUserProfile;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -101,7 +103,6 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 try {
                     UploadPic();
-                    progressBar.setVisibility(View.GONE);
                 } catch (Exception e) {
                     Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -125,26 +126,37 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
                     + getFileExtension(uriImage));
 
             // Upload image to Storage
-            UploadTask uploadTask = fileReference.putFile(uriImage);
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
-                fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    Uri downloadUri = uri;
-                    firebaseUser = authProfile.getCurrentUser();
+            fileReference.putFile(uriImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Uri downloadUri = uri;
+                            firebaseUser = authProfile.getCurrentUser();
 
-                    // Finally, set the display image of the user after upload
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                            .setPhotoUri(downloadUri).build();
-                    firebaseUser.updateProfile(profileChangeRequest);
-                }).addOnFailureListener(e -> {
+                            // Finally, set up the display image of the user after upload
+                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(downloadUri).build();
+                            firebaseUser.updateProfile(profileChangeRequest);
+                        }
+                    });
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-            }).addOnFailureListener(e -> {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadProfilePictureActivity.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(UploadProfilePictureActivity.this, FragmentUserProfile.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(UploadProfilePictureActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             });
         } else {
-            Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: uri is null", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(UploadProfilePictureActivity.this, "No File Selected!", Toast.LENGTH_SHORT).show();
         }
     }
 
