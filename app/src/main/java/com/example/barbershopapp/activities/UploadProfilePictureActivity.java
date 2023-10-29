@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.barbershopapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,10 +50,21 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
         imageViewPfpUpload = findViewById(R.id.imageView_profile_dp);
         progressBar = findViewById(R.id.progressBar);
 
-        authProfile = FirebaseAuth.getInstance();
-        firebaseUser = authProfile.getCurrentUser();
-        storageReference = FirebaseStorage.getInstance("gs://barbershop-app-80e99.appspot.com").getReference();
-        Uri uri = firebaseUser.getPhotoUrl();
+        Uri uri = null;
+        try {
+            authProfile = FirebaseAuth.getInstance();
+            firebaseUser = authProfile.getCurrentUser();
+            storageReference = FirebaseStorage.getInstance().getReference("DisplayPics");
+            uri = firebaseUser.getPhotoUrl();
+
+            // Set User's current DP in ImageView (if uploaded already). We"ll use Picasso since ImageViewer SetImage doesn't work on Regular URIs.
+            Picasso.get().load(uri).into(imageViewPfpUpload);
+        } catch (Exception e) {
+            // Handle any exceptions that may occur during Firebase initialization
+            e.printStackTrace();
+            Toast.makeText(UploadProfilePictureActivity.this, "Firebase initialization error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
 
         // Set User's current DP in ImageView (if uploaded already). We"ll use Picasso since ImageViewer SetImage doesn't work on Regular URIs.
         Picasso.get().load(uri).into(imageViewPfpUpload);
@@ -61,12 +73,20 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
         imageChooserLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK && result.getData() != null && result.getData().getData() != null) {
-                        Uri selectedImageUri = result.getData().getData();
-                        // Handle the selected image URI as needed
-                        imageViewPfpUpload.setImageURI(selectedImageUri);
+                    try {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null && result.getData().getData() != null) {
+                            Uri selectedImageUri = result.getData().getData();
+                            // Handle the selected image URI as needed
+                            imageViewPfpUpload.setImageURI(selectedImageUri);
+                            uriImage = selectedImageUri;  // Set the selected image URI to uriImage
+                        }
+                    } catch (Exception e) {
+                        // Handle any exceptions that may occur during image selection
+                        e.printStackTrace();
+                        Toast.makeText(UploadProfilePictureActivity.this, "Error selecting image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
 
         buttonUploadPictureChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +99,13 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                UploadPic();
+                try {
+                    UploadPic();
+                    progressBar.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -96,26 +122,29 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
         if (uriImage != null) {
             // Save the image with uid of the currently logged user
             StorageReference fileReference = storageReference.child(authProfile.getCurrentUser().getUid() + "."
-            + getFileExtension(uriImage));
+                    + getFileExtension(uriImage));
 
             // Upload image to Storage
-            fileReference.putFile(uriImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Uri downloadUri = uri;
-                            firebaseUser = authProfile.getCurrentUser();
+            UploadTask uploadTask = fileReference.putFile(uriImage);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                fileReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Uri downloadUri = uri;
+                    firebaseUser = authProfile.getCurrentUser();
 
-                            // Finally, set the display image of the user after upload
-                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                                    .setPhotoUri(downloadUri).build();
-                            firebaseUser.updateProfile(profileChangeRequest);
-                        }
-                    });
-                }
+                    // Finally, set the display image of the user after upload
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(downloadUri).build();
+                    firebaseUser.updateProfile(profileChangeRequest);
+                }).addOnFailureListener(e -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }).addOnFailureListener(e -> {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
+        } else {
+            Toast.makeText(UploadProfilePictureActivity.this, "Upload failed: uri is null", Toast.LENGTH_SHORT).show();
         }
     }
 
