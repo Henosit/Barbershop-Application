@@ -21,8 +21,8 @@
     <item android:title="Update Email"
         android:id="@+id/menu_update_email" />
 
-    <item android:title="Settings"
-        android:id="@+id/menu_settings" />
+    <item android:title="Change Profile Pic"
+        android:id="@+id/menu_change_profile_pic" />
 
     <item android:title="Change Password"
         android:id="@+id/menu_change_password" />

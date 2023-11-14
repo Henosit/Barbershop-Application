@@ -70,7 +70,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent= new Intent(UpdateProfileActivity.this,UpdateEmailActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         // Setting up Date Picker on EditText
@@ -156,9 +155,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(UpdateProfileActivity.this, "Updated Successfully! You may need to restart your application.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
-                                    getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                                     startActivity(new Intent(UpdateProfileActivity.this, FragmentUserProfile.class));
-                                    finish();
                     } else {
                         try {
                             throw task.getException();

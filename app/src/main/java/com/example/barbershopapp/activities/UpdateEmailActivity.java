@@ -137,7 +137,6 @@ public class UpdateEmailActivity extends AppCompatActivity {
                     Toast.makeText(UpdateEmailActivity.this,"Email has been updated. Please verify your new Email. You may need to restart your application.",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(UpdateEmailActivity.this, MainActivity.class);
                     startActivity(intent);
-                    finish();
                 } else {
                     try {
                         throw task.getException();

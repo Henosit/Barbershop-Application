@@ -210,7 +210,6 @@ public class AppointmentActivity extends Activity {
                                 Intent intent=new Intent(AppointmentActivity.this, MainActivity.class);
 //                                getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                                 startActivity(intent);
-                                finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Appointment booking failed. Please try again.", Toast.LENGTH_SHORT).show();
                             }
@@ -262,7 +261,6 @@ public class AppointmentActivity extends Activity {
                                         appointmentExists = false;
                                         Intent intent=new Intent(AppointmentActivity.this, MainActivity.class);
                                         startActivity(intent);
-                                        finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Appointment cancellation failed. Please try again.", Toast.LENGTH_SHORT).show();
                                     }

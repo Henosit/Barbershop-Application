@@ -66,10 +66,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
                     Toast.makeText(ForgotPasswordActivity.this, "You may need to restart your application,Please check your email", Toast.LENGTH_SHORT).show();
-
-                    getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//clear stack
                     startActivity(new Intent(ForgotPasswordActivity.this, MainActivity.class));
-                    finish();
                 }
                 else{
                     try{

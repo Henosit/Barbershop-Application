@@ -78,26 +78,27 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                    MenuItem settingsMenuItem = menu.findItem(R.id.menu_settings);
-                    settingsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    MenuItem changeProfilePicMenuItem = menu.findItem(R.id.menu_change_profile_pic);
+                    changeProfilePicMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             // Settings
-                            Toast.makeText(MainActivity.this,"Settings",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this,UploadProfilePictureActivity.class);
+                            startActivity(intent);
                             return true;
                         }
                     });
 
-//                MenuItem changePasswordMenuItem = menu.findItem(R.id.menu_change_password);
-//                changePasswordMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        // Change Password
-//                        Intent intent = new Intent (MainActivity.this, ChangePasswordActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                });
+                MenuItem changePasswordMenuItem = menu.findItem(R.id.menu_change_password);
+                changePasswordMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Change Password
+                        Intent intent = new Intent (MainActivity.this, ChangePasswordActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
 //
 //                MenuItem deleteProfileMenuItem = menu.findItem(R.id.menu_delete_profile);
 //                deleteProfileMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {

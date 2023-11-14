@@ -15,6 +15,9 @@
         android:theme="@style/Theme.WorkingWithFirebase"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.UploadProfilePictureActivity"
             android:exported="false" />
         <activity

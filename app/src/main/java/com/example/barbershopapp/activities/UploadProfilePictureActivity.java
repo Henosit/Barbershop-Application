@@ -146,7 +146,6 @@ public class UploadProfilePictureActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(UploadProfilePictureActivity.this, MainActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
