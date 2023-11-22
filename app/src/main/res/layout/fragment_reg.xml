@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    android:background="@drawable/background2">
+    android:background="@drawable/im9"
+    android:fillViewport="true">
+
     <LinearLayout
         android:id="@+id/textV"
         android:layout_width="match_parent"
@@ -22,9 +23,11 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="50dp"
+            android:background="#4DFFFFFF"
+            android:backgroundTint="#4D000000"
             android:gravity="center"
             android:text="Register"
-            android:textColor="@color/white"
+            android:textColor="@color/turquoise"
             android:textSize="35dp"
             android:textStyle="bold" />
 
@@ -35,24 +38,25 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.03"
-            android:textColor="@color/white"
             android:padding="5dp"
-            android:text="Full Name*" />
+            android:text="Full Name*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/nameUserReg"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.1"
+            android:background="#1A000000"
             android:ems="10"
-            android:textColor="@color/white"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
             android:hint="Enter your full name"
             android:inputType="textPersonName"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <TextView
             android:id="@+id/textViewRegEmail"
@@ -61,50 +65,52 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.03"
-            android:textColor="@color/white"
             android:padding="5dp"
-            android:text="Email*" />
+            android:text="Email*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/emailUserReg"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.1"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
+            android:background="#1A000000"
             android:ems="10"
             android:hint="Enter your Email Address"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <TextView
             android:id="@+id/textViewRegID"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_height="wrap_content"
             android:layout_weight="0.03"
             android:padding="5dp"
-            android:textColor="@color/white"
-            android:text="ID*" />
+            android:text="ID*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/idUserReg"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
+            android:layout_gravity="left"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
+            android:layout_weight="0.1"
+            android:background="#1A000000"
             android:ems="10"
             android:hint="Enter your ID"
             android:inputType="number"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <TextView
             android:id="@+id/textViewRegBirthday"
@@ -113,25 +119,26 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.03"
-            android:textColor="@color/white"
             android:padding="5dp"
-            android:text="Date of Birth (dd/mm/yyyy)*" />
+            android:text="Date of Birth (dd/mm/yyyy)*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/birthdayUserReg"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
+            android:layout_width="319dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:background="#30ffffff"
+            android:layout_gravity="left"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:textColorHint="@color/white"
+            android:layout_weight="0.1"
+            android:background="#1A000000"
             android:ems="10"
+            android:focusable="false"
             android:hint="Enter your date of birth (dd/mm/yyyy)"
             android:inputType="date"
-            android:focusable="false"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <TextView
             android:id="@+id/textViewRegGender"
@@ -140,40 +147,40 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.03"
-            android:textColor="@color/white"
             android:padding="5dp"
-            android:text="Gender*" />
+            android:text="Gender*"
+            android:textColor="@color/white" />
 
         <RadioGroup
+            android:id="@+id/radioGroupRegGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:id="@+id/radioGroupRegGender"
+            android:orientation="horizontal"
             android:padding="5dp">
 
             <android.widget.RadioButton
                 android:id="@+id/radioFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:button="@drawable/radio_button_white"
+                android:text="Female"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:button="@drawable/radio_button_white"/>
+                android:textSize="16sp" />
 
             <android.widget.RadioButton
                 android:id="@+id/radioMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
-                android:textColor="@color/white"
-                android:textSize="16sp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:button="@drawable/radio_button_white"/>
+                android:button="@drawable/radio_button_white"
+                android:text="Male"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </RadioGroup>
 
         <ProgressBar
@@ -192,9 +199,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.03"
-            android:textColor="@color/white"
             android:padding="3dp"
-            android:text="Mobile*" />
+            android:text="Mobile*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/phoneUserReg"
@@ -203,93 +210,93 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.1"
-            android:textColor="@color/white"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
+            android:background="#1A000000"
             android:ems="10"
             android:hint="Enter your mobile no. (without +972)"
             android:inputType="phone"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <TextView
             android:id="@+id/textViewRegPass"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:layout_weight="0.03"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:layout_weight="0.03"
             android:padding="5dp"
-            android:text="Password*" />
+            android:text="Password*"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/passUserReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:textColor="@color/white"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
+            android:layout_weight="0.1"
+            android:background="#1A000000"
             android:ems="10"
             android:hint="Enter your password"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <EditText
             android:id="@+id/confirmPassUserReg"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:background="#30ffffff"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:ems="10"
             android:hint="Confirm your password"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
-<!--        <RadioGroup-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:id="@+id/radioGroupRegAdmin"-->
-<!--            android:padding="5dp">-->
+        <!--        <RadioGroup-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:id="@+id/radioGroupRegAdmin"-->
+        <!--            android:padding="5dp">-->
 
-<!--            <android.widget.RadioButton-->
-<!--                android:id="@+id/radioButtonRegAdmin"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:button="@drawable/radio_button_white"-->
-<!--                android:text="Admin User"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="16sp" />-->
-<!--        </RadioGroup>-->
+        <!--            <android.widget.RadioButton-->
+        <!--                android:id="@+id/radioButtonRegAdmin"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:button="@drawable/radio_button_white"-->
+        <!--                android:text="Admin User"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="16sp" />-->
+        <!--        </RadioGroup>-->
 
         <Switch
             android:id="@+id/switchAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:layout_gravity="start"
             android:text="Admin"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textViewAdmin"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:visibility="visible"
             android:layout_weight="0.03"
+            android:background="#1A000000"
             android:padding="5dp"
-            android:text="Admin users only" />
+            android:text="Admin users only"
+            android:textColor="@color/white"
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/editTextAdminCode"
@@ -298,27 +305,27 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="0.1"
-            android:textColor="@color/white"
-            android:background="#30ffffff"
-            android:textColorHint="@color/white"
-            android:visibility="visible"
+            android:background="#1A000000"
             android:ems="10"
             android:hint="Admin Registration Code"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:visibility="visible" />
 
 
         <Button
             android:id="@+id/buttonReg2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/design_default_color_secondary"
             android:text="REGISTER"
-            android:layout_gravity="center"
             android:textSize="18sp" />
 
     </LinearLayout>

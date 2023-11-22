@@ -53,14 +53,14 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="4dp"
-                    android:background="#30ffffff"
-                    android:padding="20dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
+                    android:background="#4D000000"
                     android:drawableLeft="@drawable/ic_baseline_person_outline_24"
                     android:drawablePadding="20dp"
                     android:hint="Enter your email address"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
             </LinearLayout>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,23 +95,22 @@
                 android:orientation="horizontal">
 
 
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter your password"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="4dp"
-                    android:background="#30ffffff"
+                    android:background="#4D000000"
                     android:drawableLeft="@drawable/ic_pwd_bw_smol"
                     android:drawablePadding="20dp"
+                    android:hint="Enter your password"
+                    android:inputType="textPassword"
                     android:padding="20dp"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:inputType="textPassword" />
+                    android:textColorHint="@color/white" />
             </LinearLayout>
             <ImageView
                 android:id="@+id/imageView_show_hide_pwd"
@@ -142,7 +141,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:background="#30ffffff"
+            android:backgroundTint="#4D000000"
             android:text="Forgot Password?"
             android:textColor="@color/white"
             android:textSize="18sp" />

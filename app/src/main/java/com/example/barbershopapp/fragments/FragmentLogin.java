@@ -241,7 +241,7 @@ public class FragmentLogin extends Fragment {
         public void onStart() {
             super.onStart();
             if (authProfile.getCurrentUser()!=null) {
-                Toast.makeText(fragmentActivity,"Already logged in!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(fragmentActivity,"Already logged in!", Toast.LENGTH_SHORT).show();
 
                 // Start the UserProfileActivity
                 View v = getView();
