@@ -160,12 +160,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeMenuByRole(Boolean isAdmin) {
-        if (isAdmin) {
-            bookingMenuItem.setVisible(false);
-            viewAppointmentsMenuItem.setVisible(true);
-        } else {
-            bookingMenuItem.setVisible(true);
-            viewAppointmentsMenuItem.setVisible(false);
+        try {
+            if (isAdmin) {
+                if (bookingMenuItem != null) {
+                    bookingMenuItem.setVisible(false);
+                }
+                if (viewAppointmentsMenuItem != null) {
+                    viewAppointmentsMenuItem.setVisible(true);
+                }
+            } else {
+                if (bookingMenuItem != null) {
+                    bookingMenuItem.setVisible(true);
+                }
+                if (viewAppointmentsMenuItem != null) {
+                    viewAppointmentsMenuItem.setVisible(false);
+                }
+            }
+        } catch (NullPointerException e) {
+            // Handle the exception (e.g., log it, show an error message, etc.)
+            e.printStackTrace(); // or log.error("NullPointerException occurred", e);
         }
     }
+
 }
