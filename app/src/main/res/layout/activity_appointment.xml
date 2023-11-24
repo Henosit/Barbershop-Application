@@ -69,6 +69,7 @@
             android:backgroundTintMode="src_over"
             android:text="Book Appointment"
             android:textSize="18sp" />
+
         <Button
             android:id="@+id/cancelBookButton"
             android:layout_width="wrap_content"
@@ -78,7 +79,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:backgroundTint="#4DFF0000"
+            android:backgroundTint="#61F10A0A"
             android:backgroundTintMode="src_in"
             android:text="Cancel your appointment"
             android:textSize="18sp" />
