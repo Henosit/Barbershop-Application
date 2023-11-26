@@ -133,7 +133,15 @@ public class AppointmentActivity extends Activity {
                             TimeZone israelTimeZone = TimeZone.getTimeZone("Asia/Jerusalem");
                             Calendar calendar = Calendar.getInstance(israelTimeZone);
                             int currentHour = calendar.get(Calendar.HOUR_OF_DAY); // Get the current hour
-                            int selectedHour = Integer.parseInt(selectedTimeSlot.split(":")[0]); // Assuming time slots are in HH:mm format
+                            int selectedHour = Integer.parseInt(selectedTimeSlot.split(":")[0]);
+                            String amPm = selectedTimeSlot.split(" ")[1]; // AM or PM
+                            // Adjust the selected hour based on AM/PM
+                            if (amPm.equals("PM") && selectedHour != 12) {
+                                selectedHour += 12;
+                            } else if (amPm.equals("AM") && selectedHour == 12) {
+                                selectedHour = 0;
+                            }
+                            Toast.makeText(AppointmentActivity.this,"Hour chosen is: "+selectedHour,Toast.LENGTH_SHORT).show();
 
                             if (currentDate.equals(todayDate)) {
                                 if (selectedHour < currentHour) {
