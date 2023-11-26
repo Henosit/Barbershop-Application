@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -292,9 +293,30 @@ public class AppointmentActivity extends Activity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // An appointment exists for the current user, so make the button visible
-                    cancelBookButton.setVisibility(View.VISIBLE);
-                    appointmentExists = true;
+                    for (DataSnapshot appointmentSnapshot : dataSnapshot.getChildren()) {
+                        // Get the appointment date from the database
+                        String appointmentDate = appointmentSnapshot.child("date").getValue(String.class);
+
+                        // Check if the appointment date has passed
+                        if (isDatePassed(appointmentDate)) {
+                            // Date has passed, delete the appointment
+                            appointmentSnapshot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        // Display a message or perform any additional actions
+                                        Toast.makeText(AppointmentActivity.this, "Appointment deleted as the date has passed.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(AppointmentActivity.this, "Failed to delete appointment.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            // Appointment exists for the current user, so make the button visible
+                            cancelBookButton.setVisibility(View.VISIBLE);
+                            appointmentExists = true;
+                        }
+                    }
                 } else {
                     // No appointment exists, so hide the button
                     cancelBookButton.setVisibility(View.GONE);
@@ -308,6 +330,22 @@ public class AppointmentActivity extends Activity {
             }
         });
     }
+
+    // Helper method to check if a date has passed
+    private boolean isDatePassed(String appointmentDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date currentDate = new Date();
+            Date parsedAppointmentDate = dateFormat.parse(appointmentDate);
+
+            // Compare the dates
+            return currentDate.after(parsedAppointmentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Method to update time slot colors based on availability
 //    private void updateSlotColors(String selectedDate) {
 //        if (selectedDate != null) {
