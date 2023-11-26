@@ -1,24 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="barbers_array">
-        <item>Barber 1</item>
-        <item>Barber 2</item>
-        <item>Barber 3</item>
-        <!-- Add more barber names as needed -->
+        <item>Anthony</item>
+        <item>David</item>
+        <item>Eyal</item>
     </string-array>
 
     <string-array name="treatments_array">
-        <item>Treatment A</item>
-        <item>Treatment B</item>
-        <item>Treatment C</item>
-        <!-- Add more treatment names as needed -->
+        <item>Classic Bob</item>
+        <item>Pixie Cut</item>
+        <item>Long Layers</item>
+        <item>Side Swept Bangs</item>
+        <item>Textured Lob</item>
+        <item>French Twist</item>
+        <item>Crew Cut</item>
+        <item>Undercut</item>
+        <item>Braided Crown</item>
+        <item>High Ponytail</item>
+        <item>Beach Waves</item>
+        <item>Mohawk</item>
+        <item>Chignon</item>
+        <item>Shaggy Layers</item>
+        <item>Top Knot</item>
+        <item>Custom (At place)</item>
     </string-array>
     <string-array name="time_slots_array">
         <item>9:00 AM</item>
+        <item>9:15 AM</item>
+        <item>9:30 AM</item>
+        <item>9:45 AM</item>
         <item>10:00 AM</item>
+        <item>10:15 AM</item>
+        <item>10:30 AM</item>
+        <item>10:45 AM</item>
         <item>11:00 AM</item>
+        <item>11:15 AM</item>
+        <item>11:30 AM</item>
+        <item>11:45 AM</item>
         <item>12:00 PM</item>
+        <item>12:15 PM</item>
+        <item>12:30 PM</item>
+        <item>12:45 PM</item>
         <item>1:00 PM</item>
-        <!-- Add more time slots as needed -->
+        <item>1:15 PM</item>
+        <item>1:30 PM</item>
+        <item>1:45 PM</item>
+        <item>2:00 PM</item>
+        <item>2:15 PM</item>
+        <item>2:30 PM</item>
+        <item>2:45 PM</item>
+        <item>3:00 PM</item>
+        <item>3:15 PM</item>
+        <item>3:30 PM</item>
+        <item>3:45 PM</item>
+        <item>4:00 PM</item>
+        <item>4:15 PM</item>
+        <item>4:30 PM</item>
+        <item>4:45 PM</item>
+        <item>5:00 PM</item>
+        <item>5:15 PM</item>
+        <item>5:30 PM</item>
+        <item>5:45 PM</item>
+        <item>6:00 PM</item>
+        <item>6:15 PM</item>
+        <item>6:30 PM</item>
+        <item>6:45 PM</item>
+        <item>7:00 PM</item>
     </string-array>
 </resources>

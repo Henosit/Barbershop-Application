@@ -99,17 +99,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-//
-//                MenuItem deleteProfileMenuItem = menu.findItem(R.id.menu_delete_profile);
-//                deleteProfileMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        // Delete Profile
-//                        Intent intent = new Intent (MainActivity.this, DeleteProfileActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                });
 
                     MenuItem logoutMenuItem = menu.findItem(R.id.menu_logout);
                     logoutMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -128,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 bookingMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Delete Profile
                         Intent intent = new Intent (MainActivity.this, AppointmentActivity.class);
                         startActivity(intent);
                         return true;
@@ -139,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                     viewAppointmentsMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            // Delete Profile
                             Intent intent = new Intent (MainActivity.this, ViewAppointmentsActivity.class);
                             startActivity(intent);
                             return true;
