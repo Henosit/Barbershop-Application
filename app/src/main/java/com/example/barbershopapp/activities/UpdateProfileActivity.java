@@ -155,7 +155,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Toast.makeText(UpdateProfileActivity.this, "Updated Successfully! You may need to restart your application.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
-                                    startActivity(new Intent(UpdateProfileActivity.this, FragmentUserProfile.class));
+                                    startActivity(intent);
                     } else {
                         try {
                             throw task.getException();
