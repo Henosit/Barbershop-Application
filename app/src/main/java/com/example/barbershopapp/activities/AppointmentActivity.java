@@ -141,7 +141,6 @@ public class AppointmentActivity extends Activity {
                             } else if (amPm.equals("AM") && selectedHour == 12) {
                                 selectedHour = 0;
                             }
-                            Toast.makeText(AppointmentActivity.this,"Hour chosen is: "+selectedHour,Toast.LENGTH_SHORT).show();
 
                             if (currentDate.equals(todayDate)) {
                                 if (selectedHour < currentHour) {
